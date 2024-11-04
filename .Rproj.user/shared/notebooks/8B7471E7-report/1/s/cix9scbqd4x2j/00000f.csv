@@ -1,0 +1,20 @@
+"0","library(ProjectTemplate)"
+"0","load.project()"
+"2","Project name: courseWorkCS8631
+"
+"2","Loading project configuration
+"
+"2","Autoloading helper functions
+"
+"2"," Running helper script: globals.R
+"
+"2"," Running helper script: helpers.R
+"
+"2","Autoloading data
+"
+"2","Munging data
+"
+"2"," Running preprocessing script: 01-A.R
+"
+"2"," Sourcing R script: 01-A.R
+"
