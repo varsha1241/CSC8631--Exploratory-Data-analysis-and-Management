@@ -12,4 +12,6 @@ knitr::opts_knit$set(root.dir = normalizePath(".."))
 ```{r,message=FALSE, warning=FALSE, echo = FALSE}
 library(ProjectTemplate)
 load.project()
+combined_data <- read.csv("~/Desktop/courseWorkCS8631/data/finalData/combined_cleaned_cyber_security.csv")
+head(combined_data)
 ```
