@@ -31,3 +31,17 @@ for (i in seq_along(file_paths)) {
     write.csv(cleaned_data, cleaned_file_paths[i], row.names = FALSE)
 }
 
+cleaned_data_list <- lapply(cleaned_file_paths, read.csv)
+combined_cleaned_data <- bind_rows(cleaned_data_list)
+duplicate_counts <- combined_cleaned_data %>%
+    group_by(learner_id) %>%        # Group by learner_id
+    summarise(
+        count = n_distinct(enrolled_at, unenrolled_at, highest_education_level, employment_area),  # Use n_distinct to count unique files
+        unique_enrolled_at = unique(enrolled_at) %>% paste(collapse = ", "),
+        unique_unenrolled_at = unique(unenrolled_at) %>% paste(collapse = ", "),
+    ) %>%  # Count unique occurrences
+    filter(count > 1) %>%            # Keep only duplicates
+    ungroup()
+write.csv(duplicate_counts, "~/Desktop/courseWorkCS8631/data/preProcessedData/duplicate_counts.csv", row.names = FALSE)
+
+
