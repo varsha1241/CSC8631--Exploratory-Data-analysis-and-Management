@@ -25,9 +25,8 @@ if (!dir.exists(output_dir)) {
 
 for (i in seq_along(file_paths)) {
     cleaned_data <- read.csv(file_paths[i]) %>%
-        select(learner_id, enrolled_at, unenrolled_at, highest_education_level, employment_area) %>%
-        filter(!is.na(learner_id)) %>%
-        mutate(unenrolled_at = ifelse(unenrolled_at == "", "unknown", unenrolled_at))
+        select(learner_id, highest_education_level, employment_area) %>%
+        filter(!is.na(learner_id))
     write.csv(cleaned_data, cleaned_file_paths[i], row.names = FALSE)
 }
 
@@ -44,4 +43,37 @@ duplicate_counts <- combined_cleaned_data %>%
     ungroup()
 write.csv(duplicate_counts, "~/Desktop/courseWorkCS8631/data/preProcessedData/duplicate_counts.csv", row.names = FALSE)
 
+
+
+file_paths_leaving_survey_responses <- c(
+    "~/Desktop/courseWorkCS8631/data/rawData/cyber-security-1_leaving-survey-responses.csv",
+    "~/Desktop/courseWorkCS8631/data/rawData/cyber-security-2_leaving-survey-responses.csv",
+    "~/Desktop/courseWorkCS8631/data/rawData/cyber-security-3_leaving-survey-responses.csv",
+    "~/Desktop/courseWorkCS8631/data/rawData/cyber-security-4_leaving-survey-responses.csv",
+    "~/Desktop/courseWorkCS8631/data/rawData/cyber-security-5_leaving-survey-responses.csv",
+    "~/Desktop/courseWorkCS8631/data/rawData/cyber-security-6_leaving-survey-responses.csv",
+    "~/Desktop/courseWorkCS8631/data/rawData/cyber-security-7_leaving-survey-responses.csv"
+)
+
+cleaned_file_paths_leaving_survey_responses <- c(
+    "~/Desktop/courseWorkCS8631/data/preProcessedData/cleaned_cyber_security_1_leaving_survey_responses.csv",
+    "~/Desktop/courseWorkCS8631/data/preProcessedData/cleaned_cyber_security_2_leaving_survey_responses.csv",
+    "~/Desktop/courseWorkCS8631/data/preProcessedData/cleaned_cyber_security_3_leaving_survey_responses.csv",
+    "~/Desktop/courseWorkCS8631/data/preProcessedData/cleaned_cyber_security_4_leaving_survey_responses.csv",
+    "~/Desktop/courseWorkCS8631/data/preProcessedData/cleaned_cyber_security_5_leaving_survey_responses.csv",
+    "~/Desktop/courseWorkCS8631/data/preProcessedData/cleaned_cyber_security_6_leaving_survey_responses.csv",
+    "~/Desktop/courseWorkCS8631/data/preProcessedData/cleaned_cyber_security_7_leaving_survey_responses.csv"
+)
+
+output_dir_leaving_survey_responses <- "~/Desktop/courseWorkCS8631/data/preProcessedData"
+if (!dir.exists(output_dir_leaving_survey_responses)) {
+    dir.create(output_dir_leaving_survey_responses, recursive = TRUE)
+}
+
+for (i in seq_along(file_paths_leaving_survey_responses)) {
+    cleaned_data <- suppressWarnings(read.csv(file_paths_leaving_survey_responses[i])) %>%
+        select(learner_id, left_at, leaving_reason) %>%
+        filter(!is.na(learner_id))
+    write.csv(cleaned_data, cleaned_file_paths_leaving_survey_responses[i], row.names = FALSE)
+}
 

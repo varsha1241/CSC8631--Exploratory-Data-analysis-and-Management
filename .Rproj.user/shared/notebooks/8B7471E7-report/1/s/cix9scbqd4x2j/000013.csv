@@ -1,4 +1,0 @@
-"0","library(ProjectTemplate)"
-"0","load.project()"
-"0","combined_data <- read.csv(""~/Desktop/courseWorkCS8631/data/finalData/combined_cleaned_cyber_security.csv"")"
-"0","head(combined_data)"

@@ -14,4 +14,14 @@ library(ProjectTemplate)
 load.project()
 combined_data <- read.csv("~/Desktop/courseWorkCS8631/data/finalData/combined_cleaned_cyber_security.csv")
 head(combined_data)
+
+total_learners <- combined_data %>%
+  summarise(total = n_distinct(learner_id))
+print(total_learners)
+
+total_learners <- nrow(combined_data)
+print(total_learners)
+
+duplicates_data <- read.csv("~/Desktop/courseWorkCS8631/data/finalData/duplicate_counts_separated_dates.csv")
+head(duplicates_data)
 ```
