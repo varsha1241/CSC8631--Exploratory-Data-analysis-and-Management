@@ -1,3 +1,9 @@
+commit 2d1936dc4ec928d967141ec3c6344fa0b06b51bd
+Author: your-username <varshavenkat2001@gmail.com>
+Date:   Tue Nov 5 10:44:58 2024 +0000
+
+    cleaned and transformed the data and stored the modified data in the final data folder which will be used further in the analysis part
+
 commit f1eca52ba619e32940cf6fdb3918c00b42aaad67
 Author: your-username <varshavenkat2001@gmail.com>
 Date:   Mon Nov 4 22:59:11 2024 +0000
