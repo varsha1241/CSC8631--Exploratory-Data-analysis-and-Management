@@ -8,7 +8,7 @@ munging: TRUE
 logging: FALSE
 logging_level: INFO
 load_libraries: TRUE
-libraries: ggplot2, dplyr, lubridate,magrittr,stringr,tidyr,purrr
+libraries: ggplot2, dplyr, lubridate,magrittr,stringr,tidyr,purrr,knitr,RColorBrewer
 as_factors: FALSE
 tables_type: tibble
 attach_internal_libraries: FALSE

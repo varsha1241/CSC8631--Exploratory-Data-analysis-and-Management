@@ -1,0 +1,100 @@
+---
+title: "Course Work - Cyber Security: Safety At Home, Online, and in Life"
+author: "Varsha Venkataraman - 240150459 "
+date: "`r Sys.Date()`"
+output: pdf_document
+---
+
+```{r setup,message=FALSE, warning=FALSE, echo = FALSE}
+knitr::opts_chunk$set(echo = TRUE)  # Disable caching globally
+knitr::opts_knit$set(root.dir = normalizePath(".."))
+```
+```{r,message=FALSE, warning=FALSE, echo = FALSE}
+library(ProjectTemplate)
+load.project()
+filtered_data <- combined_data %>%
+    filter(!is.na(employment_area))
+ggplot(filtered_data, aes(x = reorder(employment_area, employment_area, function(x) -length(x)))) +
+    geom_bar(fill = "steelblue") +
+    labs(
+        title = "Enrollment in Cyber Security Course by Employment Area",
+        x = "Employment Area",
+        y = "Number of Enrollments"
+    ) +
+    theme_minimal() +
+    theme(
+        axis.text.x = element_text(angle = 45, hjust = 1, size = 8),  # Adjust font size and angle
+        plot.title = element_text(hjust = 0.5)
+    ) +
+    scale_y_continuous(expand = expansion(mult = c(0, 0.05)))
+```
+
+The above bar plot represents the 'Employment Area' of the learners who enrolled in the cyber security course in the university. The y axis has the different type of 'Employment Area' of the learners. The x axis has the number of enrollments in the cyber security course which has the range from 0 to 1500. 
+
+From the visualization we can conclude that the learners from IT industry has the maximum enrollment and the learners from the recruitment industry has the least enrollment. It is very obvious that the IT field is related to the course, but its surprising that the Finance area is standing seventh in the column. The cyber security has important role in the finance and banking area as many fraudulent acts occurs in this area. 
+
+```{r,message=FALSE, warning=FALSE, echo = FALSE}
+total_learners <- nrow(combined_data)
+
+# Create a data frame for displaying
+total_learners_df <- data.frame(
+  Metric = "Total Learners",
+  Value = total_learners
+)
+kable(total_learners_df, caption = "Total Number of Learners")
+```
+
+With respect to the above table 1, the total number of learners who are enrolled in the cyber security course is 63,248 of them. Looking at the pie chart below which has the percentage value for the learners per employment area. We can conclude that we have the employment area information only for 9% of the learners only.
+
+```{r,message=FALSE, warning=FALSE, echo = FALSE}
+colors <- colorRampPalette(brewer.pal(9, "Set1"))(22)
+summary_data <- combined_data %>%
+    count(employment_area) %>%
+    rename(Count = n) %>%
+    add_row(employment_area = "Missing", Count = sum(is.na(combined_data$employment_area))) %>%
+    add_row(employment_area = "Total", Count = nrow(combined_data)) %>%
+    filter(employment_area != "Total")  # Exclude the total row for pie chart clarity
+
+# Assign custom labels for the segments
+summary_data$label <- ifelse(summary_data$employment_area == "it_and_information_services", "IT", 
+                             ifelse(summary_data$employment_area == "Missing", "Missing Data", summary_data$employment_area))
+summary_data <- summary_data %>%
+    mutate(percentage = Count / sum(Count) * 100)
+
+# Determine the maximum count value for outline (which corresponds to "IT" or "Missing Data")
+max_value_row <- which.max(summary_data$Count)
+
+# Plot the pie chart
+ggplot(summary_data, aes(x = "", y = Count, fill = label)) +
+    geom_bar(stat = "identity", width = 1, color = ifelse(1:nrow(summary_data) == max_value_row, "black", NA), size = 1.2) +  # Add outline for max value
+    coord_polar(theta = "y") +
+    geom_text(aes(label = ifelse(1:nrow(summary_data) == max_value_row, 
+                                 paste0(label, "\n", round(percentage), "%"), 
+                                 "")), 
+              position = position_stack(vjust = 0.5), size = 5, color = "white") +
+    theme_minimal() +
+    labs(title = "Pie chart for learners per Employment Area", fill = "Employment Area") +
+    theme(
+        axis.title = element_blank(),
+        axis.text = element_blank(),
+        axis.ticks = element_blank(),
+        plot.title = element_text(hjust = 0.5)
+    ) +
+    scale_fill_manual(values = colors) +  # Apply the custom color palette
+    guides(fill = guide_legend(title.position = "top", title.hjust = 0.5, label.position = "right"))
+```
+
+The remaining 91% (roughly 57,556 learners) do not have employment area information. Because of which we cannot come up with which area of employers take up this cyber security course. 
+
+```{r,message=FALSE, warning=FALSE, echo = FALSE}
+
+```
+
+```{r,message=FALSE, warning=FALSE, echo = FALSE}
+unique_leaving_reasons <- duplicates_data_leaving_survey_responses %>%
+  distinct(leaving_reason) %>%
+  arrange(leaving_reason)  # Optionally, arrange them alphabetically
+
+# Display the unique values in a table format using kable
+kable(unique_leaving_reasons, col.names = "Unique Leaving Reasons")
+```

@@ -2,8 +2,8 @@
     "sortOrder": [
         {
             "columnIndex": 2,
-            "ascending": true
+            "ascending": false
         }
     ],
-    "path": "~/Desktop/courseWorkCS8631/data"
+    "path": "~/Desktop/courseWorkCS8631"
 }
