@@ -34,5 +34,15 @@ combined_cleaned_file_paths_leaving_survey_responses <- bind_rows(cleaned_file_p
 write.csv(combined_cleaned_file_paths_leaving_survey_responses, "~/Desktop/courseWorkCS8631/cache/finalData/combined_cleaned_cyber_security_leaving_survey_responses.csv", row.names = FALSE)
 
 
-
-
+cleaned_video_file_paths <- c(
+    "~/Desktop/courseWorkCS8631/cache/preData/cleaned_video-stats_3.csv",
+    "~/Desktop/courseWorkCS8631/cache/preData/cleaned_video-stats_4.csv",
+    "~/Desktop/courseWorkCS8631/cache/preData/cleaned_video-stats_5.csv",
+    "~/Desktop/courseWorkCS8631/cache/preData/cleaned_video-stats_6.csv",
+    "~/Desktop/courseWorkCS8631/cache/preData/cleaned_video-stats_7.csv"
+)
+# Read each file and store them in a list
+cleaned_video_data_list <- lapply(cleaned_video_file_paths, read.csv)
+# Combine all data frames in the list into a single data frame
+combined_cleaned_video_data <- bind_rows(cleaned_video_data_list)
+write.csv(combined_cleaned_video_data, "~/Desktop/courseWorkCS8631/cache/finalData/combined_cleaned_video_cyber_security.csv", row.names = FALSE)

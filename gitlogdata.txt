@@ -1,3 +1,9 @@
+commit 851bdd401048cb20ee03bc6eeb8e485687961e26
+Author: your-username <varshavenkat2001@gmail.com>
+Date:   Wed Nov 6 23:56:11 2024 +0000
+
+    started with the first cycle of CRISP DM , to analyse number of enrolments in the cyber security course and number of duplicates and unique learners.
+
 commit de69253be988aae92c89391de0c47fa1a5a59b26
 Author: your-username <varshavenkat2001@gmail.com>
 Date:   Wed Nov 6 22:43:55 2024 +0000

@@ -83,3 +83,30 @@ duplicate_counts <- combined_cleaned_data %>%
     filter(count > 1) %>%
     ungroup()
 write.csv(duplicate_counts, "~/Desktop/courseWorkCS8631/cache/preData/duplicate_counts.csv", row.names = FALSE)
+
+
+
+file_paths <- c(
+    "~/Desktop/courseWorkCS8631/data/cyber-security-3_video-stats.csv",
+    "~/Desktop/courseWorkCS8631/data/cyber-security-4_video-stats.csv",
+    "~/Desktop/courseWorkCS8631/data/cyber-security-5_video-stats.csv",
+    "~/Desktop/courseWorkCS8631/data/cyber-security-6_video-stats.csv",
+    "~/Desktop/courseWorkCS8631/data/cyber-security-7_video-stats.csv"
+)
+cleaned_file_paths <- c(
+    "~/Desktop/courseWorkCS8631/cache/preData/cleaned_video-stats_3.csv",
+    "~/Desktop/courseWorkCS8631/cache/preData/cleaned_video-stats_4.csv",
+    "~/Desktop/courseWorkCS8631/cache/preData/cleaned_video-stats_5.csv",
+    "~/Desktop/courseWorkCS8631/cache/preData/cleaned_video-stats_6.csv",
+    "~/Desktop/courseWorkCS8631/cache/preData/cleaned_video-stats_7.csv"
+)
+output_dir <- "~/Desktop/courseWorkCS8631/cache/preData"
+if (!dir.exists(output_dir)) {
+    dir.create(output_dir, recursive = TRUE)
+}
+
+for (i in seq_along(file_paths)) {
+    cleaned_data <- read.csv(file_paths[i]) %>%
+        select(video_duration)
+    write.csv(cleaned_data, cleaned_file_paths[i], row.names = FALSE)
+}

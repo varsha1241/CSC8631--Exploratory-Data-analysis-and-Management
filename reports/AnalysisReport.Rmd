@@ -1,9 +1,10 @@
 ---
-title: "Course Work - Cyber Security: Safety At Home, Online, and in Life"
+title: "Cyber Security: Safety At Home, Online, and in Life"
 author: "Varsha Venkataraman - 240150459 "
 date: "`r Sys.Date()`"
 output: pdf_document
 ---
+\textbf{Introduction}
 
 ```{r setup,message=FALSE, warning=FALSE, echo = FALSE}
 knitr::opts_chunk$set(echo = TRUE)  # Disable caching globally
@@ -12,6 +13,8 @@ knitr::opts_knit$set(root.dir = normalizePath(".."))
 ```{r,message=FALSE, warning=FALSE, echo = FALSE}
 library(ProjectTemplate)
 load.project()
+```
+```{r,message=FALSE, warning=FALSE, echo = FALSE}
 filtered_data <- combined_data %>%
     filter(!is.na(employment_area))
 ggplot(filtered_data, aes(x = reorder(employment_area, employment_area, function(x) -length(x)))) +
@@ -41,21 +44,19 @@ total_learners_df <- data.frame(
   Metric = "Total Learners",
   Value = total_learners
 )
-
 # Unique Learners
 unique_learners <- n_distinct(combined_data$learner_id)
 unique_learners_df <- data.frame(
   Metric = "Unique Learners",
   Value = unique_learners
 )
-
 # Combine the tables side by side using `cbind`
 combined_table <- cbind(total_learners_df, unique_learners_df)
-
 # Display the result in a side-by-side table format using kable
 kable(combined_table, caption = "Learner Metrics") %>%
   kable_styling(bootstrap_options = c("striped", "hover"))
 ```
+
 ```{r,message=FALSE, warning=FALSE, echo = FALSE}
 unique_learners <- n_distinct(combined_data$learner_id)
 
@@ -64,7 +65,6 @@ unique_learners_df <- data.frame(
   Metric = "Unique Learners",
   Value = unique_learners
 )
-
 # Display the result in a table format using kable
 kable(unique_learners_df, caption = "Number of Unique Learners")
 ```
@@ -85,10 +85,8 @@ summary_data$label <- ifelse(summary_data$employment_area == "it_and_information
                              ifelse(summary_data$employment_area == "Missing", "Missing Data", summary_data$employment_area))
 summary_data <- summary_data %>%
     mutate(percentage = Count / sum(Count) * 100)
-
 # Determine the maximum count value for outline (which corresponds to "IT" or "Missing Data")
 max_value_row <- which.max(summary_data$Count)
-
 # Plot the pie chart
 ggplot(summary_data, aes(x = "", y = Count, fill = label)) +
     geom_bar(stat = "identity", width = 1, color = ifelse(1:nrow(summary_data) == max_value_row, "black", NA), size = 1.2) +  # Add outline for max value
@@ -118,31 +116,30 @@ So to investigate on this I am trying to plot a visualization where I have group
 ```{r,message=FALSE, warning=FALSE, echo = FALSE,fig.height=4,fig.width=5,fig.align='center'}
 duplicate_counts <- duplicate_counts %>%
   mutate(rejoin_bucket = case_when(
-    count >= 2 & count <= 4 ~ "2-4 Rejoins",
-    count >= 5 & count <= 8 ~ "5-8 Rejoins",
-    count > 8 ~ "9+ Rejoins",
-    TRUE ~ "1 Rejoin"
+    count >= 2 & count <= 3 ~ "Q1(2-3)",
+    count >= 4 & count <= 5 ~ "Q2(4-5)",
+    count >= 6 & count <= 7 ~ "Q3(6-7)",
+    count > 8 ~ "Q4",
+    TRUE ~ "Q1"  # default for any count less than 2
   ))
-
 # Count the number of learners in each bucket
 bucket_counts <- duplicate_counts %>%
   group_by(rejoin_bucket) %>%
   summarise(learner_count = n())
-
-# Plotting the bucket counts
+# Plotting the bucket counts as a bar plot
 ggplot(bucket_counts, aes(x = rejoin_bucket, y = learner_count, fill = rejoin_bucket)) +
   geom_bar(stat = "identity") +
-  scale_fill_brewer(palette = "Set3") +  # Using a user-friendly color palette
+  scale_fill_brewer(palette = "Set3") +
   labs(
     title = "Learners Rejoining the Course",
-    x = NULL,
-    y = NULL
+    y = "Learner Count",
+    x = " "
   ) +
   theme_minimal() +
   theme(
-    axis.text.x = element_blank(),  # Remove x-axis labels
-    axis.ticks.x = element_blank(),  # Remove x-axis ticks
-    plot.title = element_text(hjust = 0.5)
+    plot.title = element_text(hjust = 0.5),  # Center the plot title
+    axis.text.x = element_text(hjust = 1),  # Rotate x-axis labels for better readability
+    axis.ticks.x = element_blank()  # Remove x-axis ticks for a cleaner look
   )
 ```
 
@@ -152,9 +149,17 @@ Since there are many number of re-joiners for the cyber security course. Now, lo
 unique_leaving_reasons_count <- duplicates_data_leaving_survey_responses %>%
   count(leaving_reason) %>%    # Count occurrences of each leaving reason
   arrange(leaving_reason)      # Optionally, arrange alphabetically
-
 # Display the unique leaving reasons with their counts in a table format using kable
 kable(unique_leaving_reasons_count, col.names = c("Unique Leaving Reason", "Count"))
 ```
 
 From the above table it is stated that most of the learners feel that the course is very lengthy that they do not find enough time to complete. Which is why they are re-joining it or maybe the course is framed perfect its the learners are not able to frame time for learning. Nearly 144 learners selected 'I prefer not to say' and 'Others' and 40 of them selected 'The course required more time than I realized' which altogether sums up 359 of them feel like time is the problem. Only 72 learners expectations did not match with the course and 26 of them found it hard.
+
+Looking at the reasons for the learners to leave the course, The below donut chart plots the total hours taken by the 
+```{r,message=FALSE, warning=FALSE, echo = FALSE,fig.height=5,fig.width=5,fig.align='center'}
+# Summarise the data and calculate the total_duration_hours in hours
+video_duration_summary <- combined_cleaned_video_data %>%
+  group_by(cyber_security) %>%
+  summarise(total_duration_hours = sum(video_duration) / 60)  
+kable(video_duration_summary, col.names = c("Cyber Security Level", "Total Duration (hours)"))
+```
