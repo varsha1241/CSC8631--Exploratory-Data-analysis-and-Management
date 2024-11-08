@@ -64,19 +64,29 @@ load.project()
 ```{r,message=FALSE, warning=FALSE, echo = FALSE}
 filtered_data <- combined_data %>%
     filter(!is.na(employment_area))
-ggplot(filtered_data, aes(x = reorder(employment_area, employment_area, function(x) -length(x)))) +
-    geom_bar(fill = "steelblue") +
+enrollment_plot <- ggplot(filtered_data, aes(x = reorder(employment_area, employment_area, function(x) -length(x)))) +
+    geom_bar(fill = "#4682B4", color = "black", width = 0.7) +  # Steel blue fill with black border for contrast
+    geom_text(stat = "count", aes(label = ..count..), vjust = -0.3, size = 3.5, color = "black") +  # Data labels above bars
     labs(
         title = "Enrollment in Cyber Security Course by Employment Area",
+        subtitle = "Distribution of enrollments across various employment areas",
         x = "Employment Area",
         y = "Number of Enrollments"
     ) +
-    theme_minimal() +
+    theme_minimal(base_size = 14) +  # Increase base font size for readability
     theme(
-        axis.text.x = element_text(angle = 45, hjust = 1, size = 8),  # Adjust font size and angle
-        plot.title = element_text(hjust = 0.5)
+        plot.title = element_text(hjust = 0.5, size = 16, face = "bold"),  # Center and bold title
+        plot.subtitle = element_text(hjust = 0.5, size = 12, color = "gray40"),  # Center subtitle
+        axis.title.x = element_text(size = 12, margin = margin(t = 10)),  # Add margin above x-axis label
+        axis.title.y = element_text(size = 12, margin = margin(r = 10)),  # Add margin to the right of y-axis label
+        axis.text.x = element_text(angle = 45, hjust = 1, vjust = 1, size = 10, color = "gray20"),  # Rotate x-axis labels
+        panel.grid.major.y = element_line(color = "gray80", size = 0.5),  # Custom grid line for y-axis
+        axis.ticks.x = element_blank()  # Remove x-axis ticks for a cleaner look
     ) +
-    scale_y_continuous(expand = expansion(mult = c(0, 0.05)))
+    scale_y_continuous(expand = expansion(mult = c(0, 0.1)))  # Adjust y-axis for space above bars
+
+enrollment_plot
+ggsave("graphs/enrollment_by_employment_area.png", plot = enrollment_plot, width = 10, height = 6)
 ```
 
 The above bar plot represents the 'Employment Area' of the learners who enrolled in the cyber security course in the university. The y axis has the different type of 'Employment Area' of the learners. The x axis has the number of enrollments in the cyber security course which has the range from 0 to 1500. 
@@ -134,8 +144,8 @@ summary_data <- summary_data %>%
     mutate(percentage = Count / sum(Count) * 100)
 # Determine the maximum count value for outline (which corresponds to "IT" or "Missing Data")
 max_value_row <- which.max(summary_data$Count)
-# Plot the pie chart
-ggplot(summary_data, aes(x = "", y = Count, fill = label)) +
+
+pieChart_MissingLearners <- ggplot(summary_data, aes(x = "", y = Count, fill = label)) +
     geom_bar(stat = "identity", width = 1, color = ifelse(1:nrow(summary_data) == max_value_row, "black", NA), size = 1.2) +  # Add outline for max value
     coord_polar(theta = "y") +
     geom_text(aes(label = ifelse(1:nrow(summary_data) == max_value_row, 
@@ -148,10 +158,18 @@ ggplot(summary_data, aes(x = "", y = Count, fill = label)) +
         axis.title = element_blank(),
         axis.text = element_blank(),
         axis.ticks = element_blank(),
-        plot.title = element_text(hjust = 0.5)
+        plot.title = element_text(hjust = 0.5, size = 14, face = "bold"),  # Center and bold title
+        legend.title = element_text(face = "bold", size = 12),  # Bold legend title
+        legend.text = element_text(size = 10),  # Smaller legend text
+        legend.position = "bottom",  # Place legend at the bottom
+        legend.key.size = unit(0.5, "cm")  # Reduce legend key size for compactness
     ) +
     scale_fill_manual(values = colors) +  # Apply the custom color palette
-    guides(fill = guide_legend(title.position = "top", title.hjust = 0.5, label.position = "right"))
+    guides(
+        fill = guide_legend(title.position = "top", title.hjust = 0.5, label.position = "bottom", nrow = 2)  # Organize legend labels into two rows
+    )
+pieChart_MissingLearners
+ggsave("graphs/pieChart_MissingLearners_employment_area.png", plot = pieChart_MissingLearners, width = 10, height = 6)
 ```
 
 The remaining 91% (roughly 57,556 learners) do not have employment area information. Because of which we cannot come up with which area of employers take up this cyber security course. 
@@ -173,21 +191,27 @@ duplicate_counts <- duplicate_counts %>%
 bucket_counts <- duplicate_counts %>%
   group_by(rejoin_bucket) %>%
   summarise(learner_count = n())
-# Plotting the bucket counts as a bar plot
-ggplot(bucket_counts, aes(x = rejoin_bucket, y = learner_count, fill = rejoin_bucket)) +
-  geom_bar(stat = "identity") +
-  scale_fill_brewer(palette = "Set3") +
+rejoiner_plot <- ggplot(bucket_counts, aes(x = rejoin_bucket, y = learner_count, fill = rejoin_bucket)) +
+  geom_bar(stat = "identity", color = "black", width = 0.6) +  # Black border and adjusted bar width
+  scale_fill_manual(values = c("Q1(2-3)" = "#A1D99B", "Q2(4-5)" = "#41AB5D", "Q3(6-7)" = "#238B45", "Q4" = "#005A32", "Q1" = "#C7E9C0")) +  # Custom color palette
+  geom_text(aes(label = learner_count), vjust = -0.5, size = 3.5, color = "black") +  # Add data labels above bars
   labs(
-    title = "Learners Rejoining the Course",
-    y = "Learner Count",
-    x = " "
+    title = "Distribution of Learners Rejoining the Course",
+    subtitle = "Classified by Rejoin Frequency Buckets",
+    y = "Number of Learners",
+    x = ""
   ) +
-  theme_minimal() +
+  theme_minimal(base_size = 14) +  # Increase base font size for readability
   theme(
-    plot.title = element_text(hjust = 0.5),  # Center the plot title
-    axis.text.x = element_text(hjust = 1),  # Rotate x-axis labels for better readability
-    axis.ticks.x = element_blank()  # Remove x-axis ticks for a cleaner look
-  )
+    plot.title = element_text(hjust = 0.5, size = 16, face = "bold"),  # Bold and center-align title
+    plot.subtitle = element_text(hjust = 0.5, size = 12, color = "gray50"),  # Subtitle styling
+    axis.title.y = element_text(size = 12, face = "italic"),  # Italicize y-axis label
+    axis.ticks.x = element_blank(),  # Remove x-axis ticks for a cleaner look
+    legend.position = "none"  # Hide legend if each bucket is uniquely labeled
+  ) +
+  scale_y_continuous(expand = expansion(mult = c(0, 0.1)))  # Add space above bars for labels
+rejoiner_plot
+ggsave("graphs/rejoiner_plot.png", plot = pieChart_MissingLearners, width = 10, height = 6)
 ```
 
 Since there are many number of re-joiners for the cyber security course. Now, looking at the survey response collected from the learners for leaving the course I have tabled number of learners reasons to leave the course with unique reasons and its total count chosen by the learners.

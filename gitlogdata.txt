@@ -1,3 +1,9 @@
+commit fad46148fe658655c7e8e93dc92d21e6668b7ca6
+Author: your-username <varshavenkat2001@gmail.com>
+Date:   Fri Nov 8 13:38:04 2024 +0000
+
+    Started with the content to for  the data pre processing and about the data preparations for my first cycle of CRISP-DM
+
 commit 0cfc75a73cdc15cfaf8f949e670fdff82b9d4612
 Author: your-username <varshavenkat2001@gmail.com>
 Date:   Thu Nov 7 18:02:19 2024 +0000
