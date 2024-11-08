@@ -1,3 +1,9 @@
+commit 0cfc75a73cdc15cfaf8f949e670fdff82b9d4612
+Author: your-username <varshavenkat2001@gmail.com>
+Date:   Thu Nov 7 18:02:19 2024 +0000
+
+    started with the introduction section followed by the Round 1 cycle of CRISP DM and its related visualisation graph and numerical analysis
+
 commit 851bdd401048cb20ee03bc6eeb8e485687961e26
 Author: your-username <varshavenkat2001@gmail.com>
 Date:   Wed Nov 6 23:56:11 2024 +0000

@@ -68,6 +68,7 @@ ensure_columns <- function(df, required_cols) {
     df[missing_cols] <- NA  # Add missing columns with NA values
     return(df)
 }
+
 # Apply this function to each dataframe in the list
 cleaned_data_list <- lapply(file_paths, read.csv)
 cleaned_data_list <- lapply(cleaned_data_list, ensure_columns, required_cols = required_columns)
@@ -110,3 +111,5 @@ for (i in seq_along(file_paths)) {
         select(video_duration)
     write.csv(cleaned_data, cleaned_file_paths[i], row.names = FALSE)
 }
+
+

@@ -2,9 +2,56 @@
 title: "Cyber Security: Safety At Home, Online, and in Life"
 author: "Varsha Venkataraman - 240150459 "
 date: "`r Sys.Date()`"
-output: pdf_document
+output: 
+    pdf_document:
+    latex_engine: xelatex
 ---
 \textbf{Introduction}
+
+This report investigates and provides insights on the data set collected for the Cyber Security: Safety At Home, Online, and in Life course developed by Newcastle University and offered by the FutureLearn Platfrom which is a massive open online course (MOOC).
+
+The university course team are likely to find some value from this report, with the main beneficiaries being the online course providers. The framework that is used to provide the results and conclusions in the report is the Cross Industry Standard for Data Mining (CRISP-DM), performing two cycles of the model to produce the results which follow.
+
+\textbf{Round 01 of the CRISP-DM Cycle}
+
+With the primary objective in the mind the first question which this report aims to answer is:
+
+\textbf{Research Question:} How many unique learners enrolled in the Cyber Security course, and what is the extent of duplicate enrollments across different cycles?
+
+\textbf{Data Understanding:} 
+For phase 1 of CRISP-DM,the data set that has the details of learners such as the learner id, enrollment date, and some more information is required.The cyber security enrollments file for each period is to be considered. 
+
+\textbf{Data Collection:}
+The data gathered for this research was sourced from FutureLearn. The Learner IDs allow for combining of information between different data sheets. The data is collecetd for the cyber security course for a specific period so there seven different time frames in which the data is collected. 
+
+\textbf{Exploring the data:}
+
+After gathering the dataset the next step is to investigate for any data issues. This step is to avoid any potential issues that might arise when we start with the analysis part, Hence its necessary to clean and pre process the dataset as per our requirement.
+
+When I explored the cyber security enrollment files for the cyber security for different time frames. The dataset contained learners Id and their specific their 'employment_area', 'highest_education_level' and few more details. But, there were lots of 'Unknown' values in many rows and columns. The 'Unknowns' values created the data to be more weaker to come up with a conclusion as these values cannot be assumed or filled with methods to fill the missing entries.
+
+Few columns had 'Unknown' as a value , but column like 'purchased_statement_at' have many missing data in it and the rows were also left blank. Categorical fields like these are difficult to fill with data, and we need to consider them to be 'NA' or 'Unknown'.
+
+Also, there were repeated learners id , initialy i considered it to be a primary key but when I saw it to be repeated, a doubt of duplicates araised.But, further exploring the repeated values along with its enrolled date, a clear understanding was made that the learners rejoined the course at various intervals.
+
+\textbf{Data Preparation:}
+
+Continuing on to next phase of the CRISP-DM model that is data preparation. This has sub divisions like data cleaning , data integration, data transformation and selecting the data in preparation for the modelling phase to come next. 
+
+The \texttt{munge} folder contains files related to data pre-processing steps. This folder includes:
+
+\begin{verbatim}
+   -> munge
+      |_ 01-dataCleaning.R
+      |_ 02-dataIntegration.R
+      |_ 03-dataTransformation.R
+\end{verbatim}
+ 
+\textbf{Data Cleaning:}
+
+In data cleaning, I filterd out the required columns alone and removed the unwanted columns from the dataset. In the enrolment file , I only considered 'learner_id', 'highest_education_level', 'employment_area' and eliminated rest of the columns.
+
+The 'enrolled_at' column had the format of date and time, I filtered out only date from it. I also replaced the empty rows with 'NA' for uniformity and to fill the blank space. Here we are not able to follow any of the methods such as to replace with mean , mode or median for the missing datas as all are unique values and its hard to follow any of the existing methods to replace hence went with the way of filling it with the unknown value.
 
 ```{r setup,message=FALSE, warning=FALSE, echo = FALSE}
 knitr::opts_chunk$set(echo = TRUE)  # Disable caching globally
@@ -153,9 +200,14 @@ unique_leaving_reasons_count <- duplicates_data_leaving_survey_responses %>%
 kable(unique_leaving_reasons_count, col.names = c("Unique Leaving Reason", "Count"))
 ```
 
-From the above table it is stated that most of the learners feel that the course is very lengthy that they do not find enough time to complete. Which is why they are re-joining it or maybe the course is framed perfect its the learners are not able to frame time for learning. Nearly 144 learners selected 'I prefer not to say' and 'Others' and 40 of them selected 'The course required more time than I realized' which altogether sums up 359 of them feel like time is the problem. Only 72 learners expectations did not match with the course and 26 of them found it hard.
+From the above table it is stated that most of the learners feel that the course is very lengthy that they do not find enough time to complete. Which is why they are re-joining it or maybe the course is framed perfect its the learners are not able to frame time for learning.
 
-Looking at the reasons for the learners to leave the course, The below donut chart plots the total hours taken by the 
+Nearly 144 learners selected 'I prefer not to say' and 'Others' and 40 of them selected 'The course required more time than I realized' which altogether sums up 359 of them feel like time is the problem. Only 72 learners expectations did not match with the course and 26 of them found it hard.
+
+Looking at the reasons for the learners to leave the course, The below tabular has the details of number of hours the course counts in total, so with respect to this we can conclude the total time taken by the course modules is 50.05 in hours. 
+
+If this is minimised or divided as 25 hours for video materials and the rest modules as pdf or document to self study it might minimise the learners to leave the course.
+
 ```{r,message=FALSE, warning=FALSE, echo = FALSE,fig.height=5,fig.width=5,fig.align='center'}
 # Summarise the data and calculate the total_duration_hours in hours
 video_duration_summary <- combined_cleaned_video_data %>%
@@ -163,3 +215,4 @@ video_duration_summary <- combined_cleaned_video_data %>%
   summarise(total_duration_hours = sum(video_duration) / 60)  
 kable(video_duration_summary, col.names = c("Cyber Security Level", "Total Duration (hours)"))
 ```
+
