@@ -1,3 +1,9 @@
+commit 1583acbd17fa0a02294a1e675a1ac84550501d63
+Author: your-username <varshavenkat2001@gmail.com>
+Date:   Fri Nov 8 18:36:36 2024 +0000
+
+    added the plots to my graph folder and added few modifications in the contents for my cycel 1
+
 commit fad46148fe658655c7e8e93dc92d21e6668b7ca6
 Author: your-username <varshavenkat2001@gmail.com>
 Date:   Fri Nov 8 13:38:04 2024 +0000

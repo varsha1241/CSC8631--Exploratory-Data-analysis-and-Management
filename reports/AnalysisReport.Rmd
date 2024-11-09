@@ -6,37 +6,43 @@ output:
     pdf_document:
     latex_engine: xelatex
 ---
-\textbf{Introduction}
+\underline{\textbf{Introduction}}
 
-This report investigates and provides insights on the data set collected for the Cyber Security: Safety At Home, Online, and in Life course developed by Newcastle University and offered by the FutureLearn Platfrom which is a massive open online course (MOOC).
+This report investigates and provides insights on the data set collected for the Cyber Security: (Safety At Home, Online, and in Life) course developed by Newcastle University and offered by the Future Learn Platfrom which is a massive open online course (MOOC).
 
 The university course team are likely to find some value from this report, with the main beneficiaries being the online course providers. The framework that is used to provide the results and conclusions in the report is the Cross Industry Standard for Data Mining (CRISP-DM), performing two cycles of the model to produce the results which follow.
 
-\textbf{Round 01 of the CRISP-DM Cycle}
+\underline{\textbf{Round 01 of the CRISP-DM Cycle}}
 
 With the primary objective in the mind the first question which this report aims to answer is:
 
-\textbf{Research Question:} How many unique learners enrolled in the Cyber Security course, and what is the extent of duplicate enrollments across different cycles?
+\textbf{Research Question:} What is the distribution of employment areas among learners enrolled in the Cyber Security course, and are there any missing data which is in high proportion that affect the insights?
 
-\textbf{Data Understanding:} 
-For phase 1 of CRISP-DM,the data set that has the details of learners such as the learner id, enrollment date, and some more information is required.The cyber security enrollments file for each period is to be considered. 
+\underline{\textbf{1.1 Data Understanding:}}
 
-\textbf{Data Collection:}
-The data gathered for this research was sourced from FutureLearn. The Learner IDs allow for combining of information between different data sheets. The data is collecetd for the cyber security course for a specific period so there seven different time frames in which the data is collected. 
+For phase 1 of CRISP-DM,the data set that has the details of learners such as the learner id, employment area, are the primary columns required. The cyber security enrollments file for each period are considered primarily for the first research question. 
 
-\textbf{Exploring the data:}
+\underline{\textbf{1.2 Exploring the data:}}
 
 After gathering the dataset the next step is to investigate for any data issues. This step is to avoid any potential issues that might arise when we start with the analysis part, Hence its necessary to clean and pre process the dataset as per our requirement.
 
-When I explored the cyber security enrollment files for the cyber security for different time frames. The dataset contained learners Id and their specific their 'employment_area', 'highest_education_level' and few more details. But, there were lots of 'Unknown' values in many rows and columns. The 'Unknowns' values created the data to be more weaker to come up with a conclusion as these values cannot be assumed or filled with methods to fill the missing entries.
+When I explored the cyber security enrollment files for the cyber security for different time frames. The dataset contained learners Id and their specific 'employment_area', 'highest_education_level' and few more details. But, there were lots of 'Unknown' values in many rows and columns. The 'Unknowns' values created the data to be more weaker to come up with a conclusion as these values cannot be assumed or filled with methods to fill the missing entries.
 
-Few columns had 'Unknown' as a value , but column like 'purchased_statement_at' have many missing data in it and the rows were also left blank. Categorical fields like these are difficult to fill with data, and we need to consider them to be 'NA' or 'Unknown'.
+Few columns had 'Unknown' as a value , but column like 'purchased_statement_at' have many missing data in it and the rows were also left blank. Categorical fields like these are difficult to be filled with data, and we need to consider them to be 'NA' or 'Unknown'.
 
-Also, there were repeated learners id , initialy i considered it to be a primary key but when I saw it to be repeated, a doubt of duplicates araised.But, further exploring the repeated values along with its enrolled date, a clear understanding was made that the learners rejoined the course at various intervals.
+Also, there were repeated learners id , initialy I considered it to be a primary key but when I saw it to be repeated, a doubt of duplicates araised. But, further exploring the repeated values along with its enrolled date, a clear understanding was made that the learners rejoined the course at various intervals.
 
-\textbf{Data Preparation:}
+\underline{\textbf{1.3 Data Preparation:}}
 
-Continuing on to next phase of the CRISP-DM model that is data preparation. This has sub divisions like data cleaning , data integration, data transformation and selecting the data in preparation for the modelling phase to come next. 
+The data preparations included five steps in total. The steps includes data collection, data cleaning , data integration, data transformation and selecting the data in preparation for the modelling phase to come next. 
+
+\underline{\textbf{1.3.1 Data Wrangling:}}
+
+\underline{\textbf{1.3.1.1 Data Munging:}}
+
+The data gathered for this research was sourced from Future Learn. The Learner IDs allow for combining of information between different data sheets. The data is collected for the cyber security course for a specific period so there seven different time frames in which the data is collected. 
+
+The data has all the primary deatils of the learners who joined the course in different time frames, and their specific enrollment time along with their employment area is also gathered.
 
 The \texttt{munge} folder contains files related to data pre-processing steps. This folder includes:
 
@@ -46,12 +52,56 @@ The \texttt{munge} folder contains files related to data pre-processing steps. T
       |_ 02-dataIntegration.R
       |_ 03-dataTransformation.R
 \end{verbatim}
- 
-\textbf{Data Cleaning:}
 
-In data cleaning, I filterd out the required columns alone and removed the unwanted columns from the dataset. In the enrolment file , I only considered 'learner_id', 'highest_education_level', 'employment_area' and eliminated rest of the columns.
+\underline{\textbf{1.3.1.2 Data Cleaning:}}
 
-The 'enrolled_at' column had the format of date and time, I filtered out only date from it. I also replaced the empty rows with 'NA' for uniformity and to fill the blank space. Here we are not able to follow any of the methods such as to replace with mean , mode or median for the missing datas as all are unique values and its hard to follow any of the existing methods to replace hence went with the way of filling it with the unknown value.
+Data wrangling is a more specific part of data preparation, focusing on cleaning, restructuring, and transforming raw data into a more useful format whic includes the below steps.
+
+\underline{\textbf{1.3.1.2.1 Data Filtering:}}
+
+In data cleaning, I filtered out the required columns alone and removed the unwanted columns from the dataset. In the enrollment file , I only considered 'learner_id', 'highest_education_level', 'employment_area' and eliminated rest of the columns.
+
+\underline{\textbf{1.3.1.2.2 Data Reshaping:}}
+
+The 'enrolled_at' column had the format of date and time, I filtered out only date from it and reshaped the row value.
+
+\underline{\textbf{1.3.1.2.3 Handling Missing Values:}}
+
+I also replaced the empty rows with 'NA' for uniformity and to fill the blank space. Here we are not able to follow any of the methods such as to replace with mean , mode or median for the missing datas as all are unique values and its hard to follow any of the existing methods to replace hence went with the way of filling it with the unknown value.
+
+\textbf{Why 'NA' instead of 'Unknown' :}
+
+NA is a standardized way to represent missing data in R (and other statistical tools). Most functions that handle missing data recognize NA, making data processing more seamless. Using “Unknown” as a placeholder may lead to misinterpretation by functions that expect missing values as NA. 
+Most statistical models, transformations, and data wrangling techniques treat NA values appropriately, either by ignoring or imputing them as necessary. Having “Unknown” in place of NA might bias analyses, as it’s recognized as text rather than as a missing value.
+
+\underline{\textbf{1.3.1.3 Data Integration:}}
+
+\begin{minipage}{0.45\textwidth}
+\begin{verbatim}
+-> cache
+   |-> preData
+         |_ cleaned_cyber_security_1.csv
+         |_ cleaned_cyber_security_2.csv
+         |_ cleaned_cyber_security_3.csv
+         |_ cleaned_cyber_security_4.csv
+         |_ cleaned_cyber_security_5.csv
+         |_ cleaned_cyber_security_6.csv
+         |_ cleaned_cyber_security_7.csv
+\end{verbatim}
+\end{minipage} \hfill
+\begin{minipage}{0.55\textwidth}
+\begin{verbatim}
+    -> cache
+        |-> finalData
+              |_combined_cleaneded_cyber_security.csv
+\end{verbatim}
+\end{minipage}
+
+In data Integration, In figure 1, there are different files which are pre processed and data is cleaned, Now I combined the related files altogether into a single file for each group. So, the figure 2 represents the combination of all related files. 
+
+\underline{\textbf{1.3.1.4 Data Transformation:}}
+
+In this part, I re-coded the employment_area row values with standardized categorical labels. This transformation is usually done when you want to standardize or simplify categorical values, making them easier to analyze or interpret.
 
 ```{r setup,message=FALSE, warning=FALSE, echo = FALSE}
 knitr::opts_chunk$set(echo = TRUE)  # Disable caching globally
@@ -61,6 +111,40 @@ knitr::opts_knit$set(root.dir = normalizePath(".."))
 library(ProjectTemplate)
 load.project()
 ```
+```{r,message=FALSE, warning=FALSE, echo = FALSE}
+replacement_table <- data.frame(
+  Old_Value = c(
+    "accountancy_banking_and_finance", "armed_forces_and_emergency_services", "business_consulting_and_management", 
+    "charities_and_voluntary_work", "creative_arts_and_culture", "energy_and_utilities", 
+    "engineering_and_manufacturing", "environment_and_agriculture", "health_and_social_care", 
+    "hospitality_tourism_and_sport", "it_and_information_services", "law", 
+    "marketing_advertising_and_pr", "media_and_publishing", "property_and_construction", 
+    "public_sector", "recruitment_and_pr", "retail_and_sales", "science_and_pharmaceuticals", 
+    "teaching_and_education", "transport_and_logistics"
+  ),
+  New_Value = c(
+    "Finance", "Defense", "Consulting", "Charity", "Arts", "Energy", 
+    "Engineering", "Environment", "Healthcare", "Hospitality", "IT", 
+    "Law", "Marketing", "Media", "Construction", "Public", "Recruitment", 
+    "Retail", "Science", "Education", "Logistics"
+  )
+)
+
+first_part <- replacement_table[1:11, ]
+second_part <- replacement_table[12:nrow(replacement_table), ]
+second_part <- rbind(second_part, data.frame(Old_Value = "", New_Value = ""))
+combined_table <- cbind(first_part, second_part)
+kable(combined_table, col.names = c("Old Value", "New Value", "Old Value", "New Value")) %>%
+  kable_styling(full_width = FALSE, position = "center", latex_options = "striped") %>%
+  row_spec(0, bold = TRUE, color = "black", background = "#D3D3D3")
+  
+```
+
+\underline{\textbf{1.3.1.5 Feature Engineering:}}
+
+
+\underline{\textbf{1.4 Exploratory Data Analysis and Visualizations:}}
+
 ```{r,message=FALSE, warning=FALSE, echo = FALSE}
 filtered_data <- combined_data %>%
     filter(!is.na(employment_area))
@@ -75,7 +159,7 @@ enrollment_plot <- ggplot(filtered_data, aes(x = reorder(employment_area, employ
     ) +
     theme_minimal(base_size = 14) +  # Increase base font size for readability
     theme(
-        plot.title = element_text(hjust = 0.5, size = 16, face = "bold"),  # Center and bold title
+        plot.title = element_text(hjust = 0.5, size = 14, face = "bold"),  # Center and bold title
         plot.subtitle = element_text(hjust = 0.5, size = 12, color = "gray40"),  # Center subtitle
         axis.title.x = element_text(size = 12, margin = margin(t = 10)),  # Add margin above x-axis label
         axis.title.y = element_text(size = 12, margin = margin(r = 10)),  # Add margin to the right of y-axis label
@@ -95,6 +179,34 @@ From the visualization we can conclude that the learners from IT industry has th
 
 The cyber security has important role in the finance and banking area as many fraudulent acts occurs in this area. 
 
+With respect to the above Table 1, the total number of learners who are enrolled in the cyber security course is 63,248 of them. Looking at the pie chart below which has the percentage value for the learners per employment area. We can conclude that we have the employment area information only for 9% of the learners only.
+
+```{r,message=FALSE, warning=FALSE, echo = FALSE}
+rejoiners_data <- duplicate_counts %>%
+  inner_join(combined_data, by = "learner_id")
+
+# Step 2: Filter to only include rejoiners (count > 1)
+rejoiners_filtered <- rejoiners_data %>%
+  filter(count > 1)
+
+# Step 3: Summarize rejoiner counts by employment area
+rejoiners_summary <- rejoiners_filtered %>%
+  group_by(employment_area) %>%
+  summarise(total_rejoiners = n()) %>%
+  arrange(desc(total_rejoiners))
+rejoiners_summary_filtered <- rejoiners_summary %>% 
+  filter(!is.na(employment_area))
+ggplot(rejoiners_summary_filtered, aes(x = reorder(employment_area, -total_rejoiners), y = total_rejoiners)) +
+  geom_bar(stat = "identity", fill = "skyblue", color = "black") +
+  labs(
+    title = "Number of Rejoiners by Employment Area",
+    x = "Employment Area",
+    y = "Total Rejoiners"
+  ) +
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1),
+        plot.title = element_text(hjust = 0.5, size = 14, face = "bold"))
+```
 ```{r,message=FALSE, warning=FALSE, echo = FALSE}
 total_learners <- nrow(combined_data)
 total_learners_df <- data.frame(
@@ -113,20 +225,9 @@ combined_table <- cbind(total_learners_df, unique_learners_df)
 kable(combined_table, caption = "Learner Metrics") %>%
   kable_styling(bootstrap_options = c("striped", "hover"))
 ```
+The remaining 91% (roughly 57,556 learners) do not have employment area information. Because of which we cannot come up with which area of employers take up this cyber security course. 
 
-```{r,message=FALSE, warning=FALSE, echo = FALSE}
-unique_learners <- n_distinct(combined_data$learner_id)
-
-# Create a data frame for displaying the count of unique learners
-unique_learners_df <- data.frame(
-  Metric = "Unique Learners",
-  Value = unique_learners
-)
-# Display the result in a table format using kable
-kable(unique_learners_df, caption = "Number of Unique Learners")
-```
-
-With respect to the above Table 1, the total number of learners who are enrolled in the cyber security course is 63,248 of them. Looking at the pie chart below which has the percentage value for the learners per employment area. We can conclude that we have the employment area information only for 9% of the learners only.
+There are around 63,248 learners with respect to the Table 1, who enrolled altogether in the cyber security course. But the unique number of learners are only 35,225 according to Table 1. Which means the rest 28,023 are either duplicate or re-joiners. 
 
 ```{r,message=FALSE, warning=FALSE, echo = FALSE,fig.height=5,fig.width=5,fig.align='center'}
 colors <- colorRampPalette(brewer.pal(9, "Set1"))(22)
@@ -145,6 +246,7 @@ summary_data <- summary_data %>%
 # Determine the maximum count value for outline (which corresponds to "IT" or "Missing Data")
 max_value_row <- which.max(summary_data$Count)
 
+# Create the pie chart
 pieChart_MissingLearners <- ggplot(summary_data, aes(x = "", y = Count, fill = label)) +
     geom_bar(stat = "identity", width = 1, color = ifelse(1:nrow(summary_data) == max_value_row, "black", NA), size = 1.2) +  # Add outline for max value
     coord_polar(theta = "y") +
@@ -158,27 +260,65 @@ pieChart_MissingLearners <- ggplot(summary_data, aes(x = "", y = Count, fill = l
         axis.title = element_blank(),
         axis.text = element_blank(),
         axis.ticks = element_blank(),
-        plot.title = element_text(hjust = 0.5, size = 14, face = "bold"),  # Center and bold title
+        plot.title = element_text(hjust = 0.5, size = 12, face = "bold"),  # Center and bold title
         legend.title = element_text(face = "bold", size = 12),  # Bold legend title
-        legend.text = element_text(size = 10),  # Smaller legend text
-        legend.position = "bottom",  # Place legend at the bottom
+        legend.text = element_text(size = 10),  # Adjust legend text size
+        legend.position = "right",  # Move legend to the right side
         legend.key.size = unit(0.5, "cm")  # Reduce legend key size for compactness
     ) +
     scale_fill_manual(values = colors) +  # Apply the custom color palette
     guides(
-        fill = guide_legend(title.position = "top", title.hjust = 0.5, label.position = "bottom", nrow = 2)  # Organize legend labels into two rows
+        fill = guide_legend(title.position = "top", title.hjust = 0.5)  # Center the legend title
     )
+
+# Display and save the pie chart
 pieChart_MissingLearners
 ggsave("graphs/pieChart_MissingLearners_employment_area.png", plot = pieChart_MissingLearners, width = 10, height = 6)
 ```
+```{r,message=FALSE, warning=FALSE, echo = FALSE,fig.height=5,fig.width=5,fig.align='center'}
+learner_count <- combined_data %>%
+  filter(!is.na(employment_area)) %>%  # Remove rows where employment_area is NA
+  group_by(employment_area) %>%
+  summarise(count = n_distinct(learner_id)) %>%
+  mutate(percentage = count / sum(count) * 100)
 
-The remaining 91% (roughly 57,556 learners) do not have employment area information. Because of which we cannot come up with which area of employers take up this cyber security course. 
+# Identify the maximum percentage
+max_percentage <- learner_count %>%
+  filter(percentage == max(percentage)) %>%
+  pull(employment_area)
 
-There are around 63,248 learners with respect to the Table 1, who enrolled altogether in the cyber security course. But the unique number of learners are only 35,225 according to Table 1. Which means the rest 28,023 are either duplicate or re-joiners. 
+# Choose a color palette from RColorBrewer
+colors <- brewer.pal(n = nrow(learner_count), name = "Set3")
 
+# Plot the pie chart with highlighted maximum value
+ggplot(learner_count, aes(x = '', y = percentage, fill = employment_area)) +
+  geom_bar(stat = 'identity', width = 1) +
+  coord_polar(theta = 'y') +
+  labs(title = 'Learners per Employment Area') +
+  theme_void() +
+  theme(legend.title = element_blank(), 
+        plot.title = element_text(hjust = 0.5, size = 11, face = "bold"),
+        legend.position = "right") +
+  scale_fill_manual(values = c(
+    setNames(c("darkred", rep(NA, nrow(learner_count) - 1)), 
+             c(max_percentage, setdiff(learner_count$employment_area, max_percentage)))
+  )) +
+  guides(fill = guide_legend(override.aes = list(color = "black", size = 2))) 
+
+```
 So to investigate on this I am trying to plot a visualization where I have grouped the re-joiners 2-4 as one bucket and 5-8 rejoining count learners as another bucket. And from the visualization below we can conclude that there are more number of re-joiners who are coming under the bucket count 2-4. 
 
-```{r,message=FALSE, warning=FALSE, echo = FALSE,fig.height=4,fig.width=5,fig.align='center'}
+\underline{\textbf{Round 02 of the CRISP-DM Cycle}}
+
+
+
+\textbf{Research Question:} What is the primary reason for re-enrollment, related to the total course hours required?
+
+\underline{\textbf{1.1 Data Understanding:}}
+
+For phase 1 of CRISP-DM,the data set that has the details of learners such as the learner id, enrollment date, and some more information is required.The cyber security enrollments file for each period is to be considered. 
+
+```{r,message=FALSE , warning=FALSE, echo = FALSE,fig.height=4,fig.width=5,fig.align='center'}
 duplicate_counts <- duplicate_counts %>%
   mutate(rejoin_bucket = case_when(
     count >= 2 & count <= 3 ~ "Q1(2-3)",
@@ -203,7 +343,7 @@ rejoiner_plot <- ggplot(bucket_counts, aes(x = rejoin_bucket, y = learner_count,
   ) +
   theme_minimal(base_size = 14) +  # Increase base font size for readability
   theme(
-    plot.title = element_text(hjust = 0.5, size = 16, face = "bold"),  # Bold and center-align title
+    plot.title = element_text(hjust = 0.5, size = 14, face = "bold"),  # Bold and center-align title
     plot.subtitle = element_text(hjust = 0.5, size = 12, color = "gray50"),  # Subtitle styling
     axis.title.y = element_text(size = 12, face = "italic"),  # Italicize y-axis label
     axis.ticks.x = element_blank(),  # Remove x-axis ticks for a cleaner look
@@ -216,12 +356,45 @@ ggsave("graphs/rejoiner_plot.png", plot = pieChart_MissingLearners, width = 10, 
 
 Since there are many number of re-joiners for the cyber security course. Now, looking at the survey response collected from the learners for leaving the course I have tabled number of learners reasons to leave the course with unique reasons and its total count chosen by the learners.
 
-```{r,message=FALSE, warning=FALSE, echo = FALSE}
+```{r,message=FALSE, warning=FALSE, echo = FALSE,fig.height=4,fig.width=5,fig.align='center'}
 unique_leaving_reasons_count <- duplicates_data_leaving_survey_responses %>%
-  count(leaving_reason) %>%    # Count occurrences of each leaving reason
-  arrange(leaving_reason)      # Optionally, arrange alphabetically
-# Display the unique leaving reasons with their counts in a table format using kable
-kable(unique_leaving_reasons_count, col.names = c("Unique Leaving Reason", "Count"))
+  count(leaving_reason) %>%
+  arrange(desc(n))
+
+leaving_reasons_table <- kable(unique_leaving_reasons_count, col.names = c("Unique Leaving Reason", "Leaving Reason Count"), booktabs = TRUE, format = "latex", align = c("l", "c")) %>%
+  kable_styling(latex_options = c("striped", "hold_position", "scale_down")) %>%
+  row_spec(which.max(unique_leaving_reasons_count$n), bold = TRUE)
+leaving_reasons_table
+
+video_duration_summary <- combined_cleaned_video_data %>%
+  group_by(cyber_security) %>%
+  summarise(total_duration_hours = sum(video_duration) / 60)
+
+video_duration_table <- kable(video_duration_summary, col.names = c("Cyber Security Level", "Total Duration (hours)"), format = "latex", booktabs = TRUE) %>%
+  kable_styling(latex_options = c("striped", "hold_position", "scale_down")) %>%
+  column_spec(2, bold = TRUE, color = "blue") %>%  # Emphasize the duration column
+  row_spec(0, bold = TRUE, background = "lightgray")  # Bold and highlight header row
+video_duration_table
+
+sector <- "IT Sector"
+learners_IT <- 1357
+rejoiners_IT <- 300
+
+learners_rejoiners_data <- data.frame(
+  Category = c("Learners", "Rejoiners"),
+  Count = c(learners_IT, rejoiners_IT)
+)
+
+# Bar plot for Learners vs Rejoiners
+bar_plot <- ggplot(learners_rejoiners_data, aes(x = Category, y = Count, fill = Category)) +
+  geom_bar(stat = "identity") +
+  labs(title = "Learners vs Rejoiners in IT Sector", x = "Category", y = "Count") +
+  theme_minimal() +
+  theme(legend.position = "top",  # Move legend to the top
+        legend.title = element_blank(),  # Remove legend title
+        legend.key.size = unit(0.6, "cm"))  # Adjust legend key size
+
+bar_plot
 ```
 
 From the above table it is stated that most of the learners feel that the course is very lengthy that they do not find enough time to complete. Which is why they are re-joining it or maybe the course is framed perfect its the learners are not able to frame time for learning.
@@ -232,11 +405,5 @@ Looking at the reasons for the learners to leave the course, The below tabular h
 
 If this is minimised or divided as 25 hours for video materials and the rest modules as pdf or document to self study it might minimise the learners to leave the course.
 
-```{r,message=FALSE, warning=FALSE, echo = FALSE,fig.height=5,fig.width=5,fig.align='center'}
-# Summarise the data and calculate the total_duration_hours in hours
-video_duration_summary <- combined_cleaned_video_data %>%
-  group_by(cyber_security) %>%
-  summarise(total_duration_hours = sum(video_duration) / 60)  
-kable(video_duration_summary, col.names = c("Cyber Security Level", "Total Duration (hours)"))
-```
+
 
