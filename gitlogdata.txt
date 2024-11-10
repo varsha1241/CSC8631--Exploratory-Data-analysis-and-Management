@@ -1,3 +1,9 @@
+commit fe8918352b209d98bedcc2ce1313c8d57fa31d2a
+Author: your-username <varshavenkat2001@gmail.com>
+Date:   Sat Nov 9 21:11:05 2024 +0000
+
+    added contents for data preparation, data wrangling, data cleaning , data collection, data transformation , and feature selection for my first cycle ofcrisp-dm
+
 commit 1583acbd17fa0a02294a1e675a1ac84550501d63
 Author: your-username <varshavenkat2001@gmail.com>
 Date:   Fri Nov 8 18:36:36 2024 +0000

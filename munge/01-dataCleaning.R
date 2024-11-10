@@ -30,9 +30,6 @@ for (i in seq_along(file_paths)) {
 
 
 file_paths_leaving_survey_responses <- c(
-    "~/Desktop/courseWorkCS8631/data/cyber-security-1_leaving-survey-responses.csv",
-    "~/Desktop/courseWorkCS8631/data/cyber-security-2_leaving-survey-responses.csv",
-    "~/Desktop/courseWorkCS8631/data/cyber-security-3_leaving-survey-responses.csv",
     "~/Desktop/courseWorkCS8631/data/cyber-security-4_leaving-survey-responses.csv",
     "~/Desktop/courseWorkCS8631/data/cyber-security-5_leaving-survey-responses.csv",
     "~/Desktop/courseWorkCS8631/data/cyber-security-6_leaving-survey-responses.csv",
@@ -40,9 +37,6 @@ file_paths_leaving_survey_responses <- c(
 )
 
 cleaned_file_paths_leaving_survey_responses <- c(
-    "~/Desktop/courseWorkCS8631/cache/preData/cleaned_cyber_security_1_leaving_survey_responses.csv",
-    "~/Desktop/courseWorkCS8631/cache/preData/cleaned_cyber_security_2_leaving_survey_responses.csv",
-    "~/Desktop/courseWorkCS8631/cache/preData/cleaned_cyber_security_3_leaving_survey_responses.csv",
     "~/Desktop/courseWorkCS8631/cache/preData/cleaned_cyber_security_4_leaving_survey_responses.csv",
     "~/Desktop/courseWorkCS8631/cache/preData/cleaned_cyber_security_5_leaving_survey_responses.csv",
     "~/Desktop/courseWorkCS8631/cache/preData/cleaned_cyber_security_6_leaving_survey_responses.csv",
@@ -58,7 +52,6 @@ for (i in seq_along(file_paths_leaving_survey_responses)) {
         filter(!is.na(learner_id))
     write.csv(cleaned_data, cleaned_file_paths_leaving_survey_responses[i], row.names = FALSE)
 }
-
 
 
 required_columns <- c("learner_id", "enrolled_at", "unenrolled_at", "highest_education_level", "employment_area")
@@ -84,8 +77,6 @@ duplicate_counts <- combined_cleaned_data %>%
     filter(count > 1) %>%
     ungroup()
 write.csv(duplicate_counts, "~/Desktop/courseWorkCS8631/cache/preData/duplicate_counts.csv", row.names = FALSE)
-
-
 
 file_paths <- c(
     "~/Desktop/courseWorkCS8631/data/cyber-security-3_video-stats.csv",
