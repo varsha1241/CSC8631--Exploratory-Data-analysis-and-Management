@@ -1,3 +1,9 @@
+commit cd0426bc2445dcf3852584e66ad6d34b884f2294
+Author: your-username <varshavenkat2001@gmail.com>
+Date:   Mon Nov 11 23:19:25 2024 +0000
+
+    added the modelling and visualisation content and ploted graphs related to my second cycle of CRISP DM , and found that the main reason for leaners to rejoin the course is they are not able to find time
+
 commit 99ec2b19a3f767d9cf3080ce4dbdb44d40820889
 Author: your-username <varshavenkat2001@gmail.com>
 Date:   Mon Nov 11 13:01:18 2024 +0000
