@@ -1,49 +1,44 @@
-cleaned_file_paths <- c(
-    "~/Desktop/courseWorkCS8631/cache/preData/cleaned_cyber_security_1.csv",
-    "~/Desktop/courseWorkCS8631/cache/preData/cleaned_cyber_security_2.csv",
-    "~/Desktop/courseWorkCS8631/cache/preData/cleaned_cyber_security_3.csv",
-    "~/Desktop/courseWorkCS8631/cache/preData/cleaned_cyber_security_4.csv",
-    "~/Desktop/courseWorkCS8631/cache/preData/cleaned_cyber_security_5.csv",
-    "~/Desktop/courseWorkCS8631/cache/preData/cleaned_cyber_security_6.csv",
-    "~/Desktop/courseWorkCS8631/cache/preData/cleaned_cyber_security_7.csv"
+# List of data frame names
+data_frame_names <- c(
+    "cyber.security.1_enrolments",
+    "cyber.security.2_enrolments",
+    "cyber.security.3_enrolments",
+    "cyber.security.4_enrolments",
+    "cyber.security.5_enrolments",
+    "cyber.security.6_enrolments",
+    "cyber.security.7_enrolments"
 )
-# Read each file and store them in a list
-cleaned_data_list <- lapply(cleaned_file_paths, read.csv)
-# Combine all data frames in the list into a single data frame
-combined_cleaned_data <- bind_rows(cleaned_data_list)
-write.csv(combined_cleaned_data, "~/Desktop/courseWorkCS8631/cache/finalData/combined_cleaned_cyber_security.csv", row.names = FALSE)
 
-cleaned_file_paths_leaving_survey_responses <- c(
-    "~/Desktop/courseWorkCS8631/cache/preData/cleaned_cyber_security_1_leaving_survey_responses.csv",
-    "~/Desktop/courseWorkCS8631/cache/preData/cleaned_cyber_security_2_leaving_survey_responses.csv",
-    "~/Desktop/courseWorkCS8631/cache/preData/cleaned_cyber_security_3_leaving_survey_responses.csv",
-    "~/Desktop/courseWorkCS8631/cache/preData/cleaned_cyber_security_4_leaving_survey_responses.csv",
-    "~/Desktop/courseWorkCS8631/cache/preData/cleaned_cyber_security_5_leaving_survey_responses.csv",
-    "~/Desktop/courseWorkCS8631/cache/preData/cleaned_cyber_security_6_leaving_survey_responses.csv",
-    "~/Desktop/courseWorkCS8631/cache/preData/cleaned_cyber_security_7_leaving_survey_responses.csv"
+# Use lapply to access each data frame by its name and combine them into one
+combined_enrolment_data <- bind_rows(lapply(data_frame_names, function(name) {
+    get(name)  # Access the data frame by name
+}))
+
+# List of data frame names
+data_frame_names_leaving_survey_responses <- c(
+    "cyber.security.4_leaving.survey.responses",
+    "cyber.security.5_leaving.survey.responses",
+    "cyber.security.6_leaving.survey.responses",
+    "cyber.security.7_leaving.survey.responses"
 )
-cleaned_file_paths_leaving_survey_responses <- lapply(cleaned_file_paths_leaving_survey_responses, function(file_path) {
-    read.csv(file_path) %>%
-        mutate(
-            learner_id = as.character(learner_id),   # Ensure learner_id is character
-            left_at = as.character(left_at),          # Ensure left_at is character
-            leaving_reason = as.character(leaving_reason)  # Ensure leaving_reason is character
-        )
-})
-combined_cleaned_file_paths_leaving_survey_responses <- bind_rows(cleaned_file_paths_leaving_survey_responses)
-write.csv(combined_cleaned_file_paths_leaving_survey_responses, "~/Desktop/courseWorkCS8631/cache/finalData/combined_cleaned_cyber_security_leaving_survey_responses.csv", row.names = FALSE)
 
+# Use lapply to access each data frame by its name and combine them into one
+combined_leaving_survey_data <- bind_rows(lapply(data_frame_names_leaving_survey_responses, function(name) {
+    get(name)  # Access the data frame by name
+}))
 
-cleaned_video_file_paths <- c(
-    "~/Desktop/courseWorkCS8631/cache/preData/cleaned_video-stats_3.csv",
-    "~/Desktop/courseWorkCS8631/cache/preData/cleaned_video-stats_4.csv",
-    "~/Desktop/courseWorkCS8631/cache/preData/cleaned_video-stats_5.csv",
-    "~/Desktop/courseWorkCS8631/cache/preData/cleaned_video-stats_6.csv",
-    "~/Desktop/courseWorkCS8631/cache/preData/cleaned_video-stats_7.csv"
+# List of data frame names
+data_frame_names <- c(
+    "cyber.security.3_video.stats",
+    "cyber.security.4_video.stats",
+    "cyber.security.5_video.stats",
+    "cyber.security.6_video.stats",
+    "cyber.security.7_video.stats"
 )
-# Read each file and store them in a list
-cleaned_video_data_list <- lapply(cleaned_video_file_paths, read.csv)
-# Combine all data frames in the list into a single data frame
-combined_cleaned_video_data <- bind_rows(cleaned_video_data_list)
-write.csv(combined_cleaned_video_data, "~/Desktop/courseWorkCS8631/cache/finalData/combined_cleaned_video_cyber_security.csv", row.names = FALSE)
+
+# Use lapply to access each data frame by its name and combine them into one
+combined_data_video_stats <- bind_rows(lapply(data_frame_names, function(name) {
+    get(name)  # Access the data frame by name
+}))
+
 

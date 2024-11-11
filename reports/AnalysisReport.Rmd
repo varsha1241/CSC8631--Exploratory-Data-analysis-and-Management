@@ -1,10 +1,12 @@
 ---
-title: "Cyber Security: Safety At Home, Online, and in Life"
+title: 'Cyber Security: Safety At Home, Online, and in Life'
 author: "Varsha Venkataraman - 240150459 "
 date: "`r Sys.Date()`"
-output: 
-    pdf_document:
-    latex_engine: xelatex
+output:
+  pdf_document: null
+  latex_engine: xelatex
+  html_document:
+    df_print: paged
 ---
 \underline{\textbf{Introduction}}
 
@@ -69,11 +71,9 @@ Data wrangling is a more specific part of data preparation, focusing on cleaning
 
 \underline{\textbf{1.3.1.2.1 Data Filtering:}}
 
-In data cleaning, I filtered out the required columns alone and removed the unwanted columns from the dataset. In the enrollment file , I only considered 'learner_id', 'highest_education_level', 'employment_area' and eliminated rest of the columns.
+In data cleaning, I filtered out the required columns alone and removed the unwanted columns from the dataset. In the enrollment file , I only considered 'learner_id', 'employment_area' and eliminated rest of the columns. The reason to consider these specific columns is because the learner_id from which i will get very unique information about the learners and it will act as a primary key here. The employment area is considered as my research question is bounded by it and I will need to do every analysis considering the employment area of the learner
 
 \underline{\textbf{1.3.1.2.2 Data Reshaping:}}
-
-The 'enrolled_at' column had the format of date and time, I filtered out only date from it and reshaped the row value.
 
 \underline{\textbf{1.3.1.2.3 Handling Missing Values:}}
 
@@ -91,21 +91,19 @@ In data Integration, In figure 1, there are different files which are pre proces
 \begin{minipage}{0.45\textwidth}
 \begin{verbatim}
 -> cache
-   |-> preData
-         |_ cleaned_cyber_security_1.csv
-         |_ cleaned_cyber_security_2.csv
-         |_ cleaned_cyber_security_3.csv
-         |_ cleaned_cyber_security_4.csv
-         |_ cleaned_cyber_security_5.csv
-         |_ cleaned_cyber_security_6.csv
-         |_ cleaned_cyber_security_7.csv
+    |_ cyber.security.1_enrolments.RData
+    |_ cyber.security.2_enrolments.RData
+    |_ cyber.security.3_enrolments.RData
+    |_ cyber.security.4_enrolments.RData
+    |_ cyber.security.5_enrolments.RData
+    |_ cyber.security.6_enrolments.RData
+    |_ cyber.security.7_enrolments.RData
 \end{verbatim}
 \end{minipage} \hfill
 \begin{minipage}{0.55\textwidth}
 \begin{verbatim}
     -> cache
-        |-> finalData
-              |_combined_cleaneded_cyber_security.csv
+        |_ combined_enrolment_data.RData
 \end{verbatim}
 \end{minipage}
 
@@ -165,7 +163,7 @@ The cyber security has important role in the finance and banking area as many fr
 The second bar plot titled 'Number of rejoiners by Employment Area' depicts the maximum number of rejoiners from different employment area. Its very evident that its from 'IT' field there are maximum number of rejoiners. Also, the number of rejoiners is not propotional to the number of enrollments in the course base on employment area.
 
 ```{r,message=FALSE, warning=FALSE, echo = FALSE}
-filtered_data <- combined_data %>%
+filtered_data <- combined_enrolment_data %>%
     filter(!is.na(employment_area))
 enrollment_plot <- ggplot(filtered_data, aes(x = reorder(employment_area, employment_area, function(x) -length(x)))) +
     geom_bar(fill = "#4682B4", color = "black", width = 0.7) +  # Steel blue fill with black border for contrast
@@ -194,7 +192,7 @@ ggsave("graphs/enrollment_by_employment_area.png", plot = enrollment_plot, width
 
 ```{r,message=FALSE, warning=FALSE, echo = FALSE}
 rejoiners_data <- duplicate_counts %>%
-  inner_join(combined_data, by = "learner_id")
+  inner_join(combined_enrolment_data, by = "learner_id")
 
 # Step 2: Filter to only include rejoiners (count > 1)
 rejoiners_filtered <- rejoiners_data %>%
@@ -217,16 +215,17 @@ rejoiners_summary_employment_area <- ggplot(rejoiners_summary_filtered, aes(x = 
   theme_minimal() +
   theme(axis.text.x = element_text(angle = 45, hjust = 1),
         plot.title = element_text(hjust = 0.5, size = 14, face = "bold"))
+rejoiners_summary_employment_area
 ggsave("graphs/rejoiners_summary_employment_area.png", plot = rejoiners_summary_employment_area, width = 10, height = 6)
 ```
 ```{r,message=FALSE, warning=FALSE, echo = FALSE}
-total_learners <- nrow(combined_data)
+total_learners <- nrow(combined_enrolment_data)
 total_learners_df <- data.frame(
   Metric = "Total Learners",
   Value = total_learners
 )
 # Unique Learners
-unique_learners <- n_distinct(combined_data$learner_id)
+unique_learners <- n_distinct(combined_enrolment_data$learner_id)
 unique_learners_df <- data.frame(
   Metric = "Unique Learners",
   Value = unique_learners
@@ -246,11 +245,11 @@ There are around 63,248 learners with respect to the Table 1, who enrolled altog
 
 ```{r,message=FALSE, warning=FALSE, echo = FALSE,fig.height=5,fig.width=5,fig.align='center'}
 colors <- colorRampPalette(brewer.pal(9, "Set1"))(22)
-summary_data <- combined_data %>%
+summary_data <- combined_enrolment_data %>%
     count(employment_area) %>%
     rename(Count = n) %>%
-    add_row(employment_area = "Missing", Count = sum(is.na(combined_data$employment_area))) %>%
-    add_row(employment_area = "Total", Count = nrow(combined_data)) %>%
+    add_row(employment_area = "Missing", Count = sum(is.na(combined_enrolment_data$employment_area))) %>%
+    add_row(employment_area = "Total", Count = nrow(combined_enrolment_data)) %>%
     filter(employment_area != "Total")  # Exclude the total row for pie chart clarity
 
 # Assign custom labels for the segments
@@ -291,7 +290,7 @@ pieChart_MissingLearners
 ggsave("graphs/pieChart_MissingLearners_employment_area.png", plot = pieChart_MissingLearners, width = 10, height = 6)
 ```
 ```{r,message=FALSE, warning=FALSE, echo = FALSE,fig.height=5,fig.width=5,fig.align='center'}
-learner_count <- combined_data %>%
+learner_count <- combined_enrolment_data %>%
   filter(!is.na(employment_area)) %>%  # Remove rows where employment_area is NA
   group_by(employment_area) %>%
   summarise(count = n_distinct(learner_id)) %>%
@@ -319,6 +318,7 @@ learners_employment_area <- ggplot(learner_count, aes(x = '', y = percentage, fi
              c(max_percentage, setdiff(learner_count$employment_area, max_percentage)))
   )) +
   guides(fill = guide_legend(override.aes = list(color = "black", size = 2))) 
+learners_employment_area
 ggsave("graphs/learners_employment_area.png", plot = learners_employment_area, width = 10, height = 6)
 ```
 
@@ -352,8 +352,6 @@ In data cleaning, I filtered out the required columns alone and removed the unwa
 
 \underline{\textbf{2.3.1.2.1 Data Reshaping:}}
 
-For the duplicate learners id , the 'enrolled_at' column had multiple dates in it, so i had to split each dates into separate columns for better analysis. I created a new column 'unique_enrolled_at' and splited multiple dates into separate ones. Now, if the learner had rejoined for more than three times to the course it would be three different columns so that we can understand just by looking into the columns and it is also to analyse the time frame.
-
 \underline{\textbf{2.3.1.2.2 Handling Missing Values:}}
 
 Moreover the first three leaving-survey-responses files did not even have any datas the file size was less in bytes. So, I did not consider these files and started with the files that had data.
@@ -368,21 +366,18 @@ In data Integration, In figure 1, there are different files which are pre proces
 \begin{verbatim}
 -> cache
    |-> preData
-         |_cyber_security_leaving-survey-responses_4.csv
-         |_cyber_security_leaving-survey-responses_5.csv
-         |_cyber_security_leaving-survey-responses_6.csv
-         |_cyber_security_leaving-survey-responses_7.csv
+         |_cyber.security.4_leaving.survey.responses.RData
+         |_cyber_security_leaving-survey-responses_5.RData
+         |_cyber_security_leaving-survey-responses_6.RData
+         |_cyber_security_leaving-survey-responses_7.RData
 \end{verbatim}
 \begin{verbatim}
 -> cache
-    |-> finalData
-        |_combined_cyber_security_leaving-survey-responses.csv
+   |_combined_leaving_survey_data.RData
 \end{verbatim}
 \end{minipage}
 
 \underline{\textbf{2.3.1.2.4 Data Transformation:}}
-
-The column 'enrolled_at_' is in the format 2018-07-06 10:55:39 UTC, but i wanted only the date to understand the time range so i transformed it and filtered only the date '2018-07-06'. And, the 'enrolled_at_' had multiple entries like for an example '2018-07-06 10:55:39 UTC, 2018-08-06 10:55:39 UTC' , so i filtered only the date part even if it had multiple values and created another column which i mentioned in the Data Reshaping and stored only date in each rows.
 
 \underline{\textbf{2.3.1.2.5 Feature Engineering:}}
 
@@ -433,7 +428,7 @@ Since there are many number of re-joiners for the cyber security course. Now, lo
 Looking at the below tabular column I can see the maximum number of learners had opted saying 'They do not have enough time'. Also, 40 learners opted for 'The course required more time' since both are time related I added the values and the count is 143. There are learners who are not satisfied with the course and few found it hard and few found it very easy but there count are very less when compared to learners who choose time as main issue.
 
 ```{r,message=FALSE, warning=FALSE, echo = FALSE,fig.height=4,fig.width=5,fig.align='center'}
-unique_leaving_reasons_count <- duplicates_data_leaving_survey_responses %>%
+unique_leaving_reasons_count <- combined_leaving_survey_data %>%
   count(leaving_reason) %>%
   arrange(desc(n))
 
@@ -442,7 +437,7 @@ leaving_reasons_table <- kable(unique_leaving_reasons_count, col.names = c("Uniq
   row_spec(which.max(unique_leaving_reasons_count$n), bold = TRUE)
 leaving_reasons_table
 
-video_duration_summary <- combined_cleaned_video_data %>%
+video_duration_summary <- combined_data_video_stats %>%
   group_by(cyber_security) %>%
   summarise(total_duration_hours = sum(video_duration) / 60)
 
@@ -458,8 +453,8 @@ Since, the maximum reason was time constraints, I calculated the total hours tak
 Looking at the below table, we can see the 'Arts' , 'Consulting' ,'Education', and 'Public' field related learners are feeling time related issues. Adding to it, we inffered that 'IT' field learners are more learners and re-joiners for the course so to see specific reasons choosen by the learners will also add value to the course team to take neccessary actions.
 
 ```{r,message=FALSE, warning=FALSE, echo = FALSE,fig.height=4,fig.width=5,fig.align='center'}
-employment_area_reason_counts <- duplicates_data_leaving_survey_responses %>%
-  inner_join(combined_data, by = "learner_id") %>%
+employment_area_reason_counts <- combined_leaving_survey_data %>%
+  inner_join(combined_enrolment_data, by = "learner_id") %>%
   drop_na(employment_area, leaving_reason) %>%
   group_by(leaving_reason, employment_area) %>%
   summarise(count = n(), .groups = 'drop')

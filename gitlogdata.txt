@@ -1,3 +1,9 @@
+commit 99ec2b19a3f767d9cf3080ce4dbdb44d40820889
+Author: your-username <varshavenkat2001@gmail.com>
+Date:   Mon Nov 11 13:01:18 2024 +0000
+
+    Added the data preparation contents and research question content, and loaded the data that i am going to work with in my second cycle in the rmd file and started with the modelling part for the second cycle
+
 commit 56114845a1397e27614435597a5709871514a3f6
 Author: your-username <varshavenkat2001@gmail.com>
 Date:   Sun Nov 10 19:47:48 2024 +0000
