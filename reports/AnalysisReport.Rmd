@@ -10,11 +10,13 @@ output:
 
 This report investigates and provides insights on the dataset collected for the Cyber Security: (Safety At Home, Online, and in Life) course developed by Newcastle University and offered by the Future Learn Platfrom which is a massive open online course (MOOC). The course is 3 weeks long and was free to access.
 
+
 \underline{\textbf{Business Understanding:}}
 
 The university course team are likely to find some value from this report, with the main beneficiaries being the online course providers. The framework that is used to provide the results and conclusions in the report is the Cross Industry Standard for Data Mining (CRISP-DM), performing two cycles of the model to produce the results which follow. 
 
 The investigation can provide them in framing the upcoming course structure or modify the existing ones, and rectify the existing issues they are facing with learners.
+
 
 \underline{\textbf{Success Criteria:}}
 
@@ -82,7 +84,7 @@ I also replaced the empty rows with 'NA' for uniformity and to fill the blank sp
 NA is a standardized way to represent missing data in R (and other statistical tools). Most functions that handle missing data recognize NA, making data processing more seamless. Using “Unknown” as a placeholder may lead to misinterpretation by functions that expect missing values as NA. 
 Most statistical models, transformations, and data wrangling techniques treat NA values appropriately, either by ignoring or imputing them as necessary. Having “Unknown” in place of NA might bias analyses, as it’s recognized as text rather than as a missing value.
 
-\underline{\textbf{1.3.1.3 Data Integration:}}
+\underline{\textbf{1.3.1.4 Data Integration:}}
 
 In data Integration, In figure 1, there are different files which are pre processed and data is cleaned, Now I combined the related files altogether into a single file for each group. So, the figure 2 represents the combination of all related files. 
 
@@ -107,7 +109,7 @@ In data Integration, In figure 1, there are different files which are pre proces
 \end{verbatim}
 \end{minipage}
 
-\underline{\textbf{1.3.1.4 Data Transformation:}}
+\underline{\textbf{1.3.1.5 Data Transformation:}}
 
 In this part, I re-coded the employment_area row values with standardized categorical labels. This transformation is usually done when you want to standardize or simplify categorical values, making them easier to analyze or interpret.
 
@@ -148,7 +150,7 @@ kable(combined_table, col.names = c("Old Value", "New Value", "Old Value", "New 
   
 ```
 
-\underline{\textbf{1.3.1.5 Feature Engineering:}}
+\underline{\textbf{1.3.1.6 Feature Engineering:}}
 
 For the first research question, its important to have learners id,and to find distribution of employment area of the learners we need to consider the employment area feature. So rest fields are optional for this research question hence removed them for further analysis.
 
@@ -205,7 +207,7 @@ rejoiners_summary <- rejoiners_filtered %>%
   arrange(desc(total_rejoiners))
 rejoiners_summary_filtered <- rejoiners_summary %>% 
   filter(!is.na(employment_area))
-ggplot(rejoiners_summary_filtered, aes(x = reorder(employment_area, -total_rejoiners), y = total_rejoiners)) +
+rejoiners_summary_employment_area <- ggplot(rejoiners_summary_filtered, aes(x = reorder(employment_area, -total_rejoiners), y = total_rejoiners)) +
   geom_bar(stat = "identity", fill = "skyblue", color = "black") +
   labs(
     title = "Number of Rejoiners by Employment Area",
@@ -215,6 +217,7 @@ ggplot(rejoiners_summary_filtered, aes(x = reorder(employment_area, -total_rejoi
   theme_minimal() +
   theme(axis.text.x = element_text(angle = 45, hjust = 1),
         plot.title = element_text(hjust = 0.5, size = 14, face = "bold"))
+ggsave("graphs/rejoiners_summary_employment_area.png", plot = rejoiners_summary_employment_area, width = 10, height = 6)
 ```
 ```{r,message=FALSE, warning=FALSE, echo = FALSE}
 total_learners <- nrow(combined_data)
@@ -303,7 +306,7 @@ max_percentage <- learner_count %>%
 colors <- brewer.pal(n = nrow(learner_count), name = "Set3")
 
 # Plot the pie chart with highlighted maximum value
-ggplot(learner_count, aes(x = '', y = percentage, fill = employment_area)) +
+learners_employment_area <- ggplot(learner_count, aes(x = '', y = percentage, fill = employment_area)) +
   geom_bar(stat = 'identity', width = 1) +
   coord_polar(theta = 'y') +
   labs(title = 'Learners per Employment Area') +
@@ -316,10 +319,10 @@ ggplot(learner_count, aes(x = '', y = percentage, fill = employment_area)) +
              c(max_percentage, setdiff(learner_count$employment_area, max_percentage)))
   )) +
   guides(fill = guide_legend(override.aes = list(color = "black", size = 2))) 
-
+ggsave("graphs/learners_employment_area.png", plot = learners_employment_area, width = 10, height = 6)
 ```
 
-\underline{\textbf{1.3.1.2 Evaluation :}}
+\underline{\textbf{1.5 Evaluation :}}
 
 The goal of first research question is not completely achieved as there are 91% of missing data so we cannot come to a conclusion with cent percent accuracy that the IT industry has the most number of learners for the cyber security course. With the dataset we have excluding the missing data, we can make a conclusion that the IT industry has the maximum distribution of learners. 
 
@@ -329,40 +332,35 @@ We need to ensure to have the enrollment details completely collected before enr
 
 With the secondary objective of the report, I am investigating on number of re-joiners, I am trying to understand the reason for them to quit and rejoin. Also, to gain some insights so that we can avoid re-joiners and modify the course modules accordingly to make it efficient to complete in the first schedule, if the reasons are stated because of the course structure. 
 
-\textbf{Research Question:} What is the primary reason for re-enrollment and which employment area has the majority re-joiners?
+\textbf{Research Question:} What is the primary reason for re-enrollment based on the employment area? What potential improvement can be done to the course to help learners complete the course without rejoining?
 
-\underline{\textbf{1.1 Data Understanding:}}
+\underline{\textbf{2.1 Data Understanding:}}
 
 For phase 2 of CRISP-DM, to make an analysis for the number of re-joiners I first need to know the count of re-joiners and their duplicate learners id. Also, to know the primary reason to leave the course its required to gather the unique reasons stated by the learners to quit. So for this I am considering the leaving_survey_response data and also the course enrollment data.
 
-\underline{\textbf{1.2 Exploring the data:}}
+\underline{\textbf{2.2 Exploring the data:}}
 
 Firstly, the course enrollment data is analysed in the first cycle and number of unique and repeated learners count is gathered. Looking into the leaving_survey_response data we can gather the unique reasons for the learners to leave the course. 
 
-\underline{\textbf{1.3 Data Preparation:}}
+\underline{\textbf{2.3 Data Preparation:}}
 
-\underline{\textbf{1.3.1 Data Wrangling:}}
+\underline{\textbf{2.3.1 Data Wrangling:}}
 
-\underline{\textbf{1.3.1.2 Data Cleaning and Filtering:}}
+\underline{\textbf{2.3.1.2 Data Cleaning and Filtering:}}
 
 In data cleaning, I filtered out the required columns alone and removed the unwanted columns from the dataset. In the survey response file , I only considered 'learner_id', 'left_at', 'leaving_reason' and eliminated rest of the columns.
 
-\underline{\textbf{1.3.1.2.2 Data Reshaping:}}
+\underline{\textbf{2.3.1.2.1 Data Reshaping:}}
 
 For the duplicate learners id , the 'enrolled_at' column had multiple dates in it, so i had to split each dates into separate columns for better analysis. I created a new column 'unique_enrolled_at' and splited multiple dates into separate ones. Now, if the learner had rejoined for more than three times to the course it would be three different columns so that we can understand just by looking into the columns and it is also to analyse the time frame.
 
-\underline{\textbf{1.3.1.2.3 Handling Missing Values:}}
+\underline{\textbf{2.3.1.2.2 Handling Missing Values:}}
 
 Moreover the first three leaving-survey-responses files did not even have any datas the file size was less in bytes. So, I did not consider these files and started with the files that had data.
 
-I also replaced the empty rows with 'NA' for uniformity and to fill the blank space. Here we are not able to follow any of the methods such as to replace with mean , mode or median for the missing datas as all are unique values and its hard to follow any of the existing methods to replace hence went with the way of filling it with the unknown value.
+I also replaced the empty rows with 'NA' for uniformity and to fill the blank space and aslo as stated in the first cycle its pretty easier to use built in functions. Here we are not able to follow any of the methods such as to replace with mean , mode or median for the missing datas as all are unique values and its hard to follow any of the existing methods to replace hence went with the way of filling it with the unknown value.
 
-\textbf{Why 'NA' instead of 'Unknown' :}
-
-NA is a standardized way to represent missing data in R (and other statistical tools). Most functions that handle missing data recognize NA, making data processing more seamless. Using “Unknown” as a placeholder may lead to misinterpretation by functions that expect missing values as NA. 
-Most statistical models, transformations, and data wrangling techniques treat NA values appropriately, either by ignoring or imputing them as necessary. Having “Unknown” in place of NA might bias analyses, as it’s recognized as text rather than as a missing value.
-
-\underline{\textbf{1.3.1.3 Data Integration:}}
+\underline{\textbf{2.3.1.2.3 Data Integration:}}
 
 In data Integration, In figure 1, there are different files which are pre processed and data is cleaned, Now I combined the related files altogether into a single file for each group. So, the figure 2 represents the combination of all related files. 
 
@@ -382,21 +380,15 @@ In data Integration, In figure 1, there are different files which are pre proces
 \end{verbatim}
 \end{minipage}
 
-\underline{\textbf{1.3.1.4 Data Transformation:}}
+\underline{\textbf{2.3.1.2.4 Data Transformation:}}
 
 The column 'enrolled_at_' is in the format 2018-07-06 10:55:39 UTC, but i wanted only the date to understand the time range so i transformed it and filtered only the date '2018-07-06'. And, the 'enrolled_at_' had multiple entries like for an example '2018-07-06 10:55:39 UTC, 2018-08-06 10:55:39 UTC' , so i filtered only the date part even if it had multiple values and created another column which i mentioned in the Data Reshaping and stored only date in each rows.
 
-\underline{\textbf{1.3.1.5 Feature Engineering:}}
+\underline{\textbf{2.3.1.2.5 Feature Engineering:}}
 
 For this research question, its important to have learners id,and to find the reason for them to leave we need to have the 'leaving_reasons' field. So rest fields are optional for this research question hence removed them for further analysis.
 
-\underline{\textbf{1.4 Modelling and Visualizations:}}
-
-To start with the visualization, the first bar plot title 'Distribution of learners rejoining the course' here I bucketed the count of re-joiners as groups, ( Q1 has the count 2 and 3 re-joiners, Q2 has the count of count 4 and 5 re-joiner, Q3 has the count of 6 and 7 re-joiners). The x axis has the number of rejoiners count and the y axis has the number of learners. Looking at the plot we can come to a conclusion that there are maximum 2-3 re-joiners for the course.
-
-Since there are many number of re-joiners for the cyber security course. Now, looking at the survey response collected from the learners for leaving the course I have tabled number of learners reasons to leave the course with unique reasons and its total count chosen by the learners.
-
-Looking at the below tabular column I can see the maximum number of learners had opted saying 'They do not have enough time'. Also, 40 learners opted for 'The course required more time' since both are time related I added the values and the count is 143. There are learners who are not satisfied with the course and few found it hard and few found it very easy but there count are very less when compared to learners who choose time as main issue.
+\underline{\textbf{2.4 Modelling and Visualizations:}}
 
 ```{r,message=FALSE , warning=FALSE, echo = FALSE}
 duplicate_counts <- duplicate_counts %>%
@@ -434,6 +426,11 @@ rejoiner_plot
 ggsave("graphs/rejoiner_plot.png", plot = pieChart_MissingLearners, width = 10, height = 6)
 ```
 
+To start with the visualization, the first bar plot title 'Distribution of learners rejoining the course' here I bucketed the count of re-joiners as groups, ( Q1 has the count 2 and 3 re-joiners, Q2 has the count of count 4 and 5 re-joiner, Q3 has the count of 6 and 7 re-joiners). The x axis has the number of rejoiners count and the y axis has the number of learners. Looking at the plot we can come to a conclusion that there are maximum 2-3 re-joiners for the course.
+
+Since there are many number of re-joiners for the cyber security course. Now, looking at the survey response collected from the learners for leaving the course I have tabled number of learners reasons to leave the course with unique reasons and its total count chosen by the learners.
+
+Looking at the below tabular column I can see the maximum number of learners had opted saying 'They do not have enough time'. Also, 40 learners opted for 'The course required more time' since both are time related I added the values and the count is 143. There are learners who are not satisfied with the course and few found it hard and few found it very easy but there count are very less when compared to learners who choose time as main issue.
 
 ```{r,message=FALSE, warning=FALSE, echo = FALSE,fig.height=4,fig.width=5,fig.align='center'}
 unique_leaving_reasons_count <- duplicates_data_leaving_survey_responses %>%
@@ -513,7 +510,18 @@ If this total course time is minimized or divided as 25 hours for video material
 
 Since, more learners are from 'IT' field we can collect the form as why the course is hard and why it did not meet their expectations with which we can proceed to alter the modules.
 
+\underline{\textbf{2.5 Evaluation :}}
 
-\underline{\textbf{1.3.1.2 Evaluation :}}
+The primary goal of the second research question is to find the main reason for the learners to leave the course which we concluded as the 'Time required', and the second sub part of the questions finding is the 'IT' sector  area has the majority of the re-joiners and addressing the potential leaving reasons and rectifying it so that the course modules are improved.
 
-\underline{\textbf{1.3.1.2 Deployment: }}
+\underline{\textbf{Final Phase Deployment: }}
+
+The final phase of this CRISP-DM is the deployment which includes the analysis and also my presentation for the insights derived from the dataset given, hoping this will add up value to the course and also help the stakeholders to improve the course modules and rectify the existing issues.
+
+The features chosen to be focused are the employment area and the reason for leaving the course. The main ideology was to find and reduce the number of re-joiners and help the learners complete it addressing the reason for them to quit. The visuals that completely relate to conclusions are 'Distribution of learner rejoining the course' and 'Unique leaving reasons'.
+
+I have chosen to include the comparison bar plots of number of learners and re-joiners based on employment area to identify which employment area contribute maximum learners to the course. A tabular column to have the unique reasons and the leaving reason count to understand the main reason for the learners to quit. A tabular column with the employment area along with the count on leaving reason to get to know what the learners from various employment area feel like so that we can address all the issue for a betterment of the course.
+
+These informative graphics will help the stakeholders to come up with an idea to resolve the existing issues and enhance the course for a better level.
+
+

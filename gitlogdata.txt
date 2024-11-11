@@ -1,3 +1,9 @@
+commit 56114845a1397e27614435597a5709871514a3f6
+Author: your-username <varshavenkat2001@gmail.com>
+Date:   Sun Nov 10 19:47:48 2024 +0000
+
+    started with the second cycle of CRISP DM and started the data cleaning and data integration and transformation for the datasets
+
 commit fe8918352b209d98bedcc2ce1313c8d57fa31d2a
 Author: your-username <varshavenkat2001@gmail.com>
 Date:   Sat Nov 9 21:11:05 2024 +0000
