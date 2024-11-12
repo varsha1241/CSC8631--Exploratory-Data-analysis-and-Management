@@ -28,7 +28,7 @@ combined_leaving_survey_data <- bind_rows(lapply(data_frame_names_leaving_survey
 }))
 
 # List of data frame names
-data_frame_names <- c(
+data_frame_names_video_stats <- c(
     "cyber.security.3_video.stats",
     "cyber.security.4_video.stats",
     "cyber.security.5_video.stats",
@@ -37,7 +37,7 @@ data_frame_names <- c(
 )
 
 # Use lapply to access each data frame by its name and combine them into one
-combined_data_video_stats <- bind_rows(lapply(data_frame_names, function(name) {
+combined_data_video_stats <- bind_rows(lapply(data_frame_names_video_stats, function(name) {
     get(name)  # Access the data frame by name
 }))
 

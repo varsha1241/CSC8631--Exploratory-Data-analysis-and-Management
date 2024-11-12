@@ -10,15 +10,13 @@ output:
 ---
 \underline{\textbf{Introduction}}
 
-This report investigates and provides insights on the dataset collected for the Cyber Security: (Safety At Home, Online, and in Life) course developed by Newcastle University and offered by the Future Learn Platfrom which is a massive open online course (MOOC). The course is 3 weeks long and was free to access.
-
+This report investigates and provides insights on the data collected for the \texttt{Cyber Security:(Safety At Home, Online, and in Life)} course developed by Newcastle University and offered by the Future Learn Platform which is a massive open online course (MOOC).
 
 \underline{\textbf{Business Understanding:}}
 
-The university course team are likely to find some value from this report, with the main beneficiaries being the online course providers. The framework that is used to provide the results and conclusions in the report is the Cross Industry Standard for Data Mining (CRISP-DM), performing two cycles of the model to produce the results which follow. 
+The university course team are likely to find some value from this report, with the main beneficiaries being the online course providers. The framework that is used to provide the results and conclusions in the report is the \texttt{Cross Industry Standard for Data Mining (CRISP-DM)}, performing two cycles of the model to produce the results which follow. 
 
 The investigation can provide them in framing the upcoming course structure or modify the existing ones, and rectify the existing issues they are facing with learners.
-
 
 \underline{\textbf{Success Criteria:}}
 
@@ -32,21 +30,25 @@ With the primary objective in the mind the first question which this report aims
 
 \underline{\textbf{1.1 Data Understanding:}}
 
-For phase 1 of CRISP-DM,the data set that has the details of learners such as the learner id, employment area, are the primary columns required. The cyber security enrollments file for each period are considered primarily for the first research question. 
+For \texttt{phase 1} of \texttt{CRISP-DM},the data file that has the details of learners such as the \texttt{learner id, employment area}, are the primary columns required. The reason for choosing these fields is explained in the feature engineering. The cyber security enrollments file for each period are considered primarily for the first research question. The 
+
+\underline{\textbf{Feature Engineering:}}
+
+For the first research question, its important to have learners id,and to find distribution of employment area of the learners we need to consider the employment area feature. So rest fields are optional for this research question hence removed them for further analysis.
 
 \underline{\textbf{1.2 Exploring the data:}}
 
-After gathering the dataset the next step is to investigate for any data issues. This step is to avoid any potential issues that might arise when we start with the analysis part, Hence its necessary to clean and pre process the dataset as per our requirement.
+After gathering the data file, the next step is to investigate for any data issues. This step is to avoid any potential issues that might arise when we start with the analysis part, Hence its necessary to clean and pre process the data as per our requirement.
 
-When I explored the cyber security enrollment files for the cyber security for different time frames. The dataset contained learners Id and their specific 'employment_area', 'highest_education_level' and few more details. But, there were lots of 'Unknown' values in many rows and columns. The 'Unknowns' values created the data to be more weaker to come up with a conclusion as these values cannot be assumed or filled with methods to fill the missing entries.
+When I explored the cyber security enrollment files for different time frames. The data files contained learners Id and their specific 'employment_area', 'highest_education_level' and few more details. But, there were lots of 'Unknown' values in many rows and columns. The 'Unknowns' values created the data to be more weaker to come up with a conclusion as these values cannot be assumed or filled with methods to fill the missing entries.
 
-Few columns had 'Unknown' as a value , but column like 'purchased_statement_at' have many missing data in it and the rows were also left blank. Categorical fields like these are difficult to be filled with data, and we need to consider them to be 'NA' or 'Unknown'.
+Few columns had 'Unknown' as a value, but column like 'purchased_statement_at' have many missing data in it and the rows were also left blank. Categorical fields like these are difficult to be filled with data, and we need to consider them to be 'NA' or 'Unknown'.
 
-Also, there were repeated learners id , initialy I considered it to be a primary key but when I saw it to be repeated, a doubt of duplicates araised. But, further exploring the repeated values along with its enrolled date, a clear understanding was made that the learners rejoined the course at various intervals.
+Also, there were repeated learners id, initially I considered it to be a primary key but when I saw it to be repeated, a doubt of duplicates raised. But, further exploring the repeated values along with its enrolled date in the original data file, a clear understanding was made that the learners rejoined the course at various intervals.
 
 \underline{\textbf{1.3 Data Preparation:}}
 
-The data preparations included five steps in total. The steps includes data collection, data cleaning , data integration, data transformation and selecting the data in preparation for the modelling phase to come next. 
+The data preparations included five steps in total. The steps includes \texttt{data collection, data cleaning , data integration, data transformation and selecting the data in preparation} for the modelling phase to come next. 
 
 \underline{\textbf{1.3.1 Data Wrangling:}}
 
@@ -54,7 +56,7 @@ The data preparations included five steps in total. The steps includes data coll
 
 The data gathered for this research was sourced from Future Learn. The Learner IDs allow for combining of information between different data sheets. The data is collected for the cyber security course for a specific period so there seven different time frames in which the data is collected. 
 
-The data has all the primary deatils of the learners who joined the course in different time frames, and their specific enrollment time along with their employment area is also gathered.
+The data has all the primary details of the learners who joined the course in different time frames, and their specific enrollment time along with their employment area is also gathered.
 
 The \texttt{munge} folder contains files related to data pre-processing steps. This folder includes:
 
@@ -67,22 +69,21 @@ The \texttt{munge} folder contains files related to data pre-processing steps. T
 
 \underline{\textbf{1.3.1.2 Data Cleaning:}}
 
-Data wrangling is a more specific part of data preparation, focusing on cleaning, restructuring, and transforming raw data into a more useful format whic includes the below steps.
+Data wrangling is a more specific part of data preparation, focusing on cleaning, restructuring, and transforming raw data into a more useful format which includes the below steps.
 
 \underline{\textbf{1.3.1.2.1 Data Filtering:}}
 
-In data cleaning, I filtered out the required columns alone and removed the unwanted columns from the dataset. In the enrollment file , I only considered 'learner_id', 'employment_area' and eliminated rest of the columns. The reason to consider these specific columns is because the learner_id from which i will get very unique information about the learners and it will act as a primary key here. The employment area is considered as my research question is bounded by it and I will need to do every analysis considering the employment area of the learner
-
-\underline{\textbf{1.3.1.2.2 Data Reshaping:}}
+In data cleaning, I filtered out the required columns alone and removed the unwanted columns from the data files. In the enrollment file , I only considered 'learner_id', 'employment_area' and eliminated rest of the columns. The reason to consider these specific columns is because the learner_id from which, I will get very unique information about the learners and it will act as a primary key here. The employment area is considered as my research question is bounded by it and I will need to do every analysis considering the employment area of the learner
 
 \underline{\textbf{1.3.1.2.3 Handling Missing Values:}}
 
-I also replaced the empty rows with 'NA' for uniformity and to fill the blank space. Here we are not able to follow any of the methods such as to replace with mean , mode or median for the missing datas as all are unique values and its hard to follow any of the existing methods to replace hence went with the way of filling it with the unknown value.
+I also replaced the empty rows with 'NA' for uniformity and to fill the blank space. Here we are not able to follow any of the methods such as to replace with mean , mode or median for the missing data as all are unique values and its hard to follow any of the existing methods to replace hence went with the way of filling it with the unknown value.
 
 \textbf{Why 'NA' instead of 'Unknown' :}
 
-NA is a standardized way to represent missing data in R (and other statistical tools). Most functions that handle missing data recognize NA, making data processing more seamless. Using “Unknown” as a placeholder may lead to misinterpretation by functions that expect missing values as NA. 
-Most statistical models, transformations, and data wrangling techniques treat NA values appropriately, either by ignoring or imputing them as necessary. Having “Unknown” in place of NA might bias analyses, as it’s recognized as text rather than as a missing value.
+The \texttt{NA is a standardized} way to represent missing data in R (and other statistical tools). Most functions that handle missing data recognize NA, making data processing more seamless. Using “Unknown” as a placeholder may lead to misinterpretation by functions that expect missing values as NA. 
+
+Most \texttt{statistical models, transformations, and data wrangling techniques treat NA values appropriately}, either by ignoring or imputing them as necessary. Having “Unknown” in place of NA might bias analyses, as it is recognized as text rather than as a missing value.
 
 \underline{\textbf{1.3.1.4 Data Integration:}}
 
@@ -148,10 +149,6 @@ kable(combined_table, col.names = c("Old Value", "New Value", "Old Value", "New 
   
 ```
 
-\underline{\textbf{1.3.1.6 Feature Engineering:}}
-
-For the first research question, its important to have learners id,and to find distribution of employment area of the learners we need to consider the employment area feature. So rest fields are optional for this research question hence removed them for further analysis.
-
 \underline{\textbf{1.4 Modelling and Visualizations:}}
 
 The below first bar plot 'Enrollment in Cyber Security course by Employment Area' represents the 'Employment Area' of the learners who enrolled in the cyber security course in the university. The y axis has the different type of 'Employment Area' of the learners. The x axis has the number of enrollments in the cyber security course which has the range from 0 to 1500. 
@@ -160,9 +157,9 @@ From the visualization we can conclude that the learners from IT industry has th
 
 The cyber security has important role in the finance and banking area as many fraudulent acts occurs in this area. 
 
-The second bar plot titled 'Number of rejoiners by Employment Area' depicts the maximum number of rejoiners from different employment area. Its very evident that its from 'IT' field there are maximum number of rejoiners. Also, the number of rejoiners is not propotional to the number of enrollments in the course base on employment area.
+The second bar plot titled 'Number of re-joiners by Employment Area' depicts the maximum number of re-joiners from different employment area. Its very evident that its from 'IT' field there are maximum number of re-joiners. Also, the number of re-joiners is not propotional to the number of enrollments in the course base on employment area.
 
-```{r,message=FALSE, warning=FALSE, echo = FALSE}
+```{r,message=FALSE, warning=FALSE, echo = FALSE,fig.height=4,fig.width=5,fig.align='center'}
 filtered_data <- combined_enrolment_data %>%
     filter(!is.na(employment_area))
 enrollment_plot <- ggplot(filtered_data, aes(x = reorder(employment_area, employment_area, function(x) -length(x)))) +
@@ -190,7 +187,7 @@ enrollment_plot
 ggsave("graphs/enrollment_by_employment_area.png", plot = enrollment_plot, width = 10, height = 6)
 ```
 
-```{r,message=FALSE, warning=FALSE, echo = FALSE}
+```{r,message=FALSE, warning=FALSE, echo = FALSE,fig.height=4,fig.width=5,fig.align='center'}
 rejoiners_data <- duplicate_counts %>%
   inner_join(combined_enrolment_data, by = "learner_id")
 
@@ -241,9 +238,8 @@ With respect to the above Table 1, the total number of learners who are enrolled
 
 The remaining 91% (roughly 57,556 learners) do not have employment area information. Because of which we cannot come up with 100% accuracy which area of employers take up this cyber security course. 
 
-There are around 63,248 learners with respect to the Table 1, who enrolled altogether in the cyber security course. But the unique number of learners are only 35,225 according to Table 1. Which means the rest 28,023 are either duplicate or re-joiners. 
-
-```{r,message=FALSE, warning=FALSE, echo = FALSE,fig.height=5,fig.width=5,fig.align='center'}
+There are around \texttt{63,248 learners} with respect to the Table 1, who enrolled altogether in the cyber security course. But the unique number of learners are only \texttt{35,225} according to Table 1. Which means the rest \texttt{28,023} are either duplicate or re-joiners. 
+```{r,message=FALSE, warning=FALSE, echo = FALSE,fig.height=6,fig.width=6,fig.align='center'}
 colors <- colorRampPalette(brewer.pal(9, "Set1"))(22)
 summary_data <- combined_enrolment_data %>%
     count(employment_area) %>%
@@ -288,7 +284,9 @@ pieChart_MissingLearners <- ggplot(summary_data, aes(x = "", y = Count, fill = l
 # Display and save the pie chart
 pieChart_MissingLearners
 ggsave("graphs/pieChart_MissingLearners_employment_area.png", plot = pieChart_MissingLearners, width = 10, height = 6)
+
 ```
+
 ```{r,message=FALSE, warning=FALSE, echo = FALSE,fig.height=5,fig.width=5,fig.align='center'}
 learner_count <- combined_enrolment_data %>%
   filter(!is.na(employment_area)) %>%  # Remove rows where employment_area is NA
@@ -320,7 +318,10 @@ learners_employment_area <- ggplot(learner_count, aes(x = '', y = percentage, fi
   guides(fill = guide_legend(override.aes = list(color = "black", size = 2))) 
 learners_employment_area
 ggsave("graphs/learners_employment_area.png", plot = learners_employment_area, width = 10, height = 6)
+
 ```
+
+
 
 \underline{\textbf{1.5 Evaluation :}}
 
@@ -336,11 +337,11 @@ With the secondary objective of the report, I am investigating on number of re-j
 
 \underline{\textbf{2.1 Data Understanding:}}
 
-For phase 2 of CRISP-DM, to make an analysis for the number of re-joiners I first need to know the count of re-joiners and their duplicate learners id. Also, to know the primary reason to leave the course its required to gather the unique reasons stated by the learners to quit. So for this I am considering the leaving_survey_response data and also the course enrollment data.
+For phase 2 of CRISP-DM, to make an analysis for the number of re-joiners, I first need to know the count of re-joiners and their duplicate learners id. Also, to know the primary reason to leave the course its required to gather the unique reasons stated by the learners to quit. So for this I am considering the leaving_survey_response data and also the course enrollment data file and video statistics data file.
 
 \underline{\textbf{2.2 Exploring the data:}}
 
-Firstly, the course enrollment data is analysed in the first cycle and number of unique and repeated learners count is gathered. Looking into the leaving_survey_response data we can gather the unique reasons for the learners to leave the course. 
+Firstly, the course enrollment data is analysed in the first cycle and number of unique and repeated learners count is gathered. Looking into the 'leaving_survey_response data' we can gather the unique reasons for the learners to leave the course. So looking at the reasons for the learners to leave which is a categorical data, the options that were widely opted contained 'time'. Also, to ensure the course structure, I analysed the video statistics data and analysed the number of hours it takes to complete a course also the module structure. The time were in seconds and also each module had different time duration. But, the total time for the course modules looked same. Now, let's start with the data preparation part.
 
 \underline{\textbf{2.3 Data Preparation:}}
 
@@ -348,9 +349,11 @@ Firstly, the course enrollment data is analysed in the first cycle and number of
 
 \underline{\textbf{2.3.1.2 Data Cleaning and Filtering:}}
 
-In data cleaning, I filtered out the required columns alone and removed the unwanted columns from the dataset. In the survey response file , I only considered 'learner_id', 'left_at', 'leaving_reason' and eliminated rest of the columns.
+In data cleaning, I filtered out the required columns alone and removed the unwanted columns from the data file. In the survey response file , I only considered 'learner_id', 'left_at', 'leaving_reason'. For the video statistics data frames I filtered out only the time and maintaining the value in seconds and later will convert it to hours during data transformation.
 
-\underline{\textbf{2.3.1.2.1 Data Reshaping:}}
+\underline{\textbf{2.3.1.2.5 Feature Engineering:}}
+
+For this research question, its important to have learners id,and to find the reason for them to leave we need to have the 'leaving_reasons' field. So rest fields are optional for this research question hence removed them for further analysis. Also in the video statistics data frames I added up all the time duration and created a new column to address how many hours is taken for each cyber security time frame course. The reason to exclude the modules is, looking into the reasons stated my learners for leaving the course mainly had 'time related issues' so I decided to focus on the time duration for this research question.
 
 \underline{\textbf{2.3.1.2.2 Handling Missing Values:}}
 
@@ -367,9 +370,9 @@ In data Integration, In figure 1, there are different files which are pre proces
 -> cache
    |-> preData
          |_cyber.security.4_leaving.survey.responses.RData
-         |_cyber_security_leaving-survey-responses_5.RData
-         |_cyber_security_leaving-survey-responses_6.RData
-         |_cyber_security_leaving-survey-responses_7.RData
+         |_cyber_security.5_leaving-survey-responses_5.RData
+         |_cyber_security.6_leaving-survey-responses_6.RData
+         |_cyber_security.7_leaving-survey-responses_7.RData
 \end{verbatim}
 \begin{verbatim}
 -> cache
@@ -377,11 +380,21 @@ In data Integration, In figure 1, there are different files which are pre proces
 \end{verbatim}
 \end{minipage}
 
-\underline{\textbf{2.3.1.2.4 Data Transformation:}}
-
-\underline{\textbf{2.3.1.2.5 Feature Engineering:}}
-
-For this research question, its important to have learners id,and to find the reason for them to leave we need to have the 'leaving_reasons' field. So rest fields are optional for this research question hence removed them for further analysis.
+\begin{minipage}{0.45\textwidth}
+\begin{verbatim}
+-> cache
+   |-> preData
+         |_cyber.security.3_video.stats
+         |_cyber.security.4_video.stats
+         |_cyber.security.5_video.stats
+         |_cyber.security.6_video.stats
+         |_cyber.security.7_video.stats
+\end{verbatim}
+\begin{verbatim}
+-> cache
+   |_combined_cyber.security_video.stats.RData
+\end{verbatim}
+\end{minipage}
 
 \underline{\textbf{2.4 Modelling and Visualizations:}}
 
@@ -477,6 +490,12 @@ max_employment_area_reason_table
 
 Looking at the above table we can see that, The learners from 'IT' employment area had choosen reasons like 'The course was too hard' , 'The course was not upto their expectation' , 'They prefer not say' and 'Other'. A suggestion to the course team would be if the learner is choosing 'other' to give an option to the learners to fill the reason so that it will help to know the exact reason. But with the current available data a decision that the course modules needed to be modified so that the learner from the 'IT' field will have complete satisfaction.
 
+In conclusion it is stated that most of the learners feel that the course is very lengthy that they do not find enough time to complete. Which is why they are re-joining it or maybe the course is framed perfect its the learners are not able to frame time for learning.
+
+If this total course time is minimized or divided as 25 hours for video materials and the rest modules as pdf or document to self study it might minimize the learners to leave the course.
+
+Since, more learners are from 'IT' field we can collect the form as why the course is hard and why it did not meet their expectations with which we can proceed to alter the modules.
+
 ```{r,message=FALSE, warning=FALSE, echo = FALSE,fig.height=4,fig.width=5,fig.align='center'}
 sector <- "IT Sector"
 learners_IT <- 1357
@@ -498,12 +517,6 @@ bar_plot <- ggplot(learners_rejoiners_data, aes(x = Category, y = Count, fill = 
 
 bar_plot
 ```
-
-In conclusion it is stated that most of the learners feel that the course is very lengthy that they do not find enough time to complete. Which is why they are re-joining it or maybe the course is framed perfect its the learners are not able to frame time for learning.
-
-If this total course time is minimized or divided as 25 hours for video materials and the rest modules as pdf or document to self study it might minimize the learners to leave the course.
-
-Since, more learners are from 'IT' field we can collect the form as why the course is hard and why it did not meet their expectations with which we can proceed to alter the modules.
 
 \underline{\textbf{2.5 Evaluation :}}
 
