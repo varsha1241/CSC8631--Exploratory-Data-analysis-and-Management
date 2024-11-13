@@ -370,9 +370,9 @@ In data Integration, In figure 1, there are different files which are pre proces
 -> cache
    |-> preData
          |_cyber.security.4_leaving.survey.responses.RData
-         |_cyber_security.5_leaving-survey-responses_5.RData
-         |_cyber_security.6_leaving-survey-responses_6.RData
-         |_cyber_security.7_leaving-survey-responses_7.RData
+         |_cyber.security.5_leaving.survey.responses.RData
+         |_cyber_security.6_leaving-survey-responses.RData
+         |_cyber_security.7_leaving-survey-responses.RData
 \end{verbatim}
 \begin{verbatim}
 -> cache
