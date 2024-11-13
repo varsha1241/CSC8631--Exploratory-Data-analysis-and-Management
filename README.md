@@ -17,7 +17,7 @@ Directory structure:
 The overall structure looks like 
 > courseWorkCS8631
     |_ cache > Intermediate dataset
-    |_ data > Raw data files
+    |_ data > Raw data files of futurelearn
     |_ gitlogdata.txt
     |_ graphs > images of the visualisations
     |_ munge > files related to pre processing of raw data
@@ -86,6 +86,8 @@ If it throws an error as tinytex is not there and asks you run the command
 and now again try knitting it , you will see the render will start downloading and once the execution completes you will be able to see a pdf file opening.
 
 If u still face any issues you can try this command tinytex::reinstall_tinytex() and execute it and again knit it and check.
+5. If, you have a pop up on your screen saying , Rendering R Markdown documents requires updated versions of the following packages: stringi, stringr.
+Do you want to install these packages now? give Yes
 
 Additional Setup Instruction:
 

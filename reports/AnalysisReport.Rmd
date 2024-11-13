@@ -115,6 +115,7 @@ In this part, I re-coded the employment_area row values with standardized catego
 ```{r setup,message=FALSE, warning=FALSE, echo = FALSE}
 knitr::opts_chunk$set(echo = TRUE)  # Disable caching globally
 knitr::opts_knit$set(root.dir = normalizePath(".."))
+options(repos = c(CRAN = "https://cran.rstudio.com/"))
 ```
 ```{r,message=FALSE, warning=FALSE, echo = FALSE}
 library(ProjectTemplate)
