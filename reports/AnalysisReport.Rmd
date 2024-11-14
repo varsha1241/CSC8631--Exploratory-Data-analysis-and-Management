@@ -113,13 +113,13 @@ In this part, I re-coded the employment_area row values with standardized catego
 ```{r setup,message=FALSE, warning=FALSE, echo = FALSE}
 knitr::opts_chunk$set(echo = TRUE)  # Disable caching globally
 knitr::opts_knit$set(root.dir = normalizePath(".."))
-options(repos = c(CRAN = "https://cran.rstudio.com/"))
 ```
 ```{r,message=FALSE, warning=FALSE, echo = FALSE}
 library(ProjectTemplate)
 load.project()
 ```
 ```{r,message=FALSE, warning=FALSE, echo = FALSE}
+#a table for the data transformation for the employment area values
 replacement_table <- data.frame(
   Old_Value = c(
     "accountancy_banking_and_finance", "armed_forces_and_emergency_services", "business_consulting_and_management", 
@@ -157,42 +157,42 @@ From the visualization we can conclude that the learners from IT industry has th
 The second bar plot titled 'Number of re-joiners by Employment Area' depicts the maximum number of re-joiners from different employment area. Its very evident that its from 'IT' field there are maximum number of re-joiners. Also, the number of re-joiners is not proportional to the number of enrollments in the course base on employment area.
 
 ```{r,message=FALSE, warning=FALSE, echo = FALSE,fig.height=4,fig.align='center'}
+# a bar plot for emrollment for cyber security by employment area without missing data
 filtered_data <- combined_enrolment_data %>%
     filter(!is.na(employment_area))
 enrollment_plot <- ggplot(filtered_data, aes(x = reorder(employment_area, employment_area, function(x) -length(x)))) +
-    geom_bar(fill = "#4682B4", color = "black", width = 0.7) +  # Steel blue fill with black border for contrast
-    geom_text(stat = "count", aes(label = ..count..), vjust = -0.3, size = 3.5, color = "black") +  # Data labels above bars
+    geom_bar(fill = "#4682B4", color = "black", width = 0.7) +  
+    geom_text(stat = "count", aes(label = ..count..), vjust = -0.3, size = 3.5, color = "black") +
     labs(
         title = "Enrollment in Cyber Security Course by Employment Area",
         subtitle = "Distribution of enrollments across various employment areas",
         x = "Employment Area",
         y = "Number of Enrollments"
     ) +
-    theme_minimal(base_size = 14) +  # Increase base font size for readability
+    theme_minimal(base_size = 14) +  
     theme(
-        plot.title = element_text(hjust = 0.5, size = 14, face = "bold"),  # Center and bold title
-        plot.subtitle = element_text(hjust = 0.5, size = 12, color = "gray40"),  # Center subtitle
-        axis.title.x = element_text(size = 12, margin = margin(t = 10)),  # Add margin above x-axis label
-        axis.title.y = element_text(size = 12, margin = margin(r = 10)),  # Add margin to the right of y-axis label
-        axis.text.x = element_text(angle = 45, hjust = 1, vjust = 1, size = 10, color = "gray20"),  # Rotate x-axis labels
-        panel.grid.major.y = element_line(color = "gray80", size = 0.5),  # Custom grid line for y-axis
-        axis.ticks.x = element_blank()  # Remove x-axis ticks for a cleaner look
+        plot.title = element_text(hjust = 0.5, size = 14, face = "bold"),  
+        plot.subtitle = element_text(hjust = 0.5, size = 12, color = "gray40"), 
+        axis.title.x = element_text(size = 12, margin = margin(t = 10)),  
+        axis.title.y = element_text(size = 12, margin = margin(r = 10)),
+        axis.text.x = element_text(angle = 45, hjust = 1, vjust = 1, size = 10, color = "gray20"),
+        panel.grid.major.y = element_line(color = "gray80", size = 0.5), 
+        axis.ticks.x = element_blank() 
     ) +
-    scale_y_continuous(expand = expansion(mult = c(0, 0.1)))  # Adjust y-axis for space above bars
-
+    scale_y_continuous(expand = expansion(mult = c(0, 0.1))) 
+#displaying the plot and saving it in the graphs folder
 enrollment_plot
 ggsave("graphs/enrollment_by_employment_area.png", plot = enrollment_plot, width = 10, height = 6)
 ```
 
 ```{r,message=FALSE, warning=FALSE, echo = FALSE,fig.height=4,fig.align='center'}
+# a bar plot for rejoiners for cyber security by employment area without missing data
 rejoiners_data <- duplicate_counts %>%
   inner_join(combined_enrolment_data, by = "learner_id")
 
-# Step 2: Filter to only include rejoiners (count > 1)
 rejoiners_filtered <- rejoiners_data %>%
   filter(count > 1)
 
-# Step 3: Summarize rejoiner counts by employment area
 rejoiners_summary <- rejoiners_filtered %>%
   group_by(employment_area) %>%
   summarise(total_rejoiners = n()) %>%
@@ -212,21 +212,22 @@ rejoiners_summary_employment_area <- ggplot(rejoiners_summary_filtered, aes(x = 
 rejoiners_summary_employment_area
 ggsave("graphs/rejoiners_summary_employment_area.png", plot = rejoiners_summary_employment_area, width = 10, height = 6)
 ```
+
 ```{r,message=FALSE, warning=FALSE, echo = FALSE}
+# total number of learners for the course
 total_learners <- nrow(combined_enrolment_data)
 total_learners_df <- data.frame(
   Metric = "Total Learners",
   Value = total_learners
 )
-# Unique Learners
+# Unique Learners for the course 
 unique_learners <- n_distinct(combined_enrolment_data$learner_id)
 unique_learners_df <- data.frame(
   Metric = "Unique Learners",
   Value = unique_learners
 )
-# Combine the tables side by side using `cbind`
+
 combined_table <- cbind(total_learners_df, unique_learners_df)
-# Display the result in a side-by-side table format using kable
 kable(combined_table, caption = "Learner Metrics") %>%
   kable_styling(bootstrap_options = c("striped", "hover"))
 ```
@@ -238,23 +239,23 @@ The remaining 91% (roughly 57,556 learners) do not have employment area informat
 There are around \texttt{63,248 learners} with respect to the Table 1, who enrolled altogether in the cyber security course. But the unique number of learners are only \texttt{35,225} according to Table 1. Which means the rest \texttt{28,023} are either duplicate or re-joiners.
 
 ```{r,message=FALSE, warning=FALSE, echo = FALSE,fig.height=6,fig.width=6,fig.align='center'}
+# Summarize Employment Area Distribution with Missing Data and Percentage Calculations
 colors <- colorRampPalette(brewer.pal(9, "Set1"))(22)
 summary_data <- combined_enrolment_data %>%
     count(employment_area) %>%
     rename(Count = n) %>%
     add_row(employment_area = "Missing", Count = sum(is.na(combined_enrolment_data$employment_area))) %>%
     add_row(employment_area = "Total", Count = nrow(combined_enrolment_data)) %>%
-    filter(employment_area != "Total")  # Exclude the total row for pie chart clarity
+    filter(employment_area != "Total") 
 
-# Assign custom labels for the segments
+
 summary_data$label <- ifelse(summary_data$employment_area == "it_and_information_services", "IT", 
                              ifelse(summary_data$employment_area == "Missing", "Missing Data", summary_data$employment_area))
 summary_data <- summary_data %>%
     mutate(percentage = Count / sum(Count) * 100)
-# Determine the maximum count value for outline (which corresponds to "IT" or "Missing Data")
 max_value_row <- which.max(summary_data$Count)
 
-# Create the pie chart
+# this pie chart is for learners based on employment area with missing data
 pieChart_MissingLearners <- ggplot(summary_data, aes(x = "", y = Count, fill = label)) +
     geom_bar(stat = "identity", width = 1, color = ifelse(1:nrow(summary_data) == max_value_row, "black", NA), size = 1.2) +  # Add outline for max value
     coord_polar(theta = "y") +
@@ -264,19 +265,21 @@ pieChart_MissingLearners <- ggplot(summary_data, aes(x = "", y = Count, fill = l
               position = position_stack(vjust = 0.5), size = 5, color = "white") +
     theme_minimal() +
     labs(title = "Learners per Employment Area", fill = "Employment Area") +
+    # this will add alignment to the pie chart for legend and title
     theme(
         axis.title = element_blank(),
         axis.text = element_blank(),
         axis.ticks = element_blank(),
-        plot.title = element_text(hjust = 0.5, size = 12, face = "bold"),  # Center and bold title
-        legend.title = element_text(face = "bold", size = 12),  # Bold legend title
-        legend.text = element_text(size = 10),  # Adjust legend text size
-        legend.position = "right",  # Move legend to the right side
-        legend.key.size = unit(0.5, "cm")  # Reduce legend key size for compactness
+        plot.title = element_text(hjust = 0.5, size = 12, face = "bold"),
+        legend.title = element_text(face = "bold", size = 12),  
+        legend.text = element_text(size = 10), 
+        legend.position = "right",  
+        legend.key.size = unit(0.5, "cm")  
     ) +
-    scale_fill_manual(values = colors) +  # Apply the custom color palette
+    # Apply the custom color palette and Center the legend title
+    scale_fill_manual(values = colors) + 
     guides(
-        fill = guide_legend(title.position = "top", title.hjust = 0.5)  # Center the legend title
+        fill = guide_legend(title.position = "top", title.hjust = 0.5)  
     )
 
 # Display and save the pie chart
@@ -286,21 +289,20 @@ ggsave("graphs/pieChart_MissingLearners_employment_area.png", plot = pieChart_Mi
 ```
 
 ```{r,message=FALSE, warning=FALSE, echo = FALSE,fig.height=5,fig.width=5,fig.align='center'}
+# this pie chart is for learners based on employment area without missing data
 learner_count <- combined_enrolment_data %>%
-  filter(!is.na(employment_area)) %>%  # Remove rows where employment_area is NA
+  filter(!is.na(employment_area)) %>%  
   group_by(employment_area) %>%
   summarise(count = n_distinct(learner_id)) %>%
   mutate(percentage = count / sum(count) * 100)
 
-# Identify the maximum percentage
+# Identifying the maximum percentage to highlight it in the pie chart
 max_percentage <- learner_count %>%
   filter(percentage == max(percentage)) %>%
   pull(employment_area)
 
-# Choose a color palette from RColorBrewer
+# Choosing a color palette from RColorBrewer and creating the pie chart with highlighted maximum value for learners based on employment area 
 colors <- brewer.pal(n = nrow(learner_count), name = "Set3")
-
-# Plot the pie chart with highlighted maximum value
 learners_employment_area <- ggplot(learner_count, aes(x = '', y = percentage, fill = employment_area)) +
   geom_bar(stat = 'identity', width = 1) +
   coord_polar(theta = 'y') +
@@ -397,6 +399,7 @@ In data Integration, In figure 1, there are different files which are pre proces
 \underline{\textbf{2.4 Modelling and Visualizations:}}
 
 ```{r,message=FALSE , warning=FALSE, echo = FALSE}
+#re-joiners count grouped into specific buckets
 duplicate_counts <- duplicate_counts %>%
   mutate(rejoin_bucket = case_when(
     count >= 2 & count <= 3 ~ "Q1(2-3)",
@@ -405,7 +408,7 @@ duplicate_counts <- duplicate_counts %>%
     count > 8 ~ "Q4",
     TRUE ~ "Q1"  # default for any count less than 2
   ))
-# Count the number of learners in each bucket
+# the number of learners in each bucket and plot a bar plot
 bucket_counts <- duplicate_counts %>%
   group_by(rejoin_bucket) %>%
   summarise(learner_count = n())
@@ -419,15 +422,17 @@ rejoiner_plot <- ggplot(bucket_counts, aes(x = rejoin_bucket, y = learner_count,
     y = "Number of Learners",
     x = ""
   ) +
-  theme_minimal(base_size = 14) +  # Increase base font size for readability
+  theme_minimal(base_size = 14) +  
   theme(
-    plot.title = element_text(hjust = 0.5, size = 14, face = "bold"),  # Bold and center-align title
-    plot.subtitle = element_text(hjust = 0.5, size = 12, color = "gray50"),  # Subtitle styling
-    axis.title.y = element_text(size = 12, face = "italic"),  # Italicize y-axis label
-    axis.ticks.x = element_blank(),  # Remove x-axis ticks for a cleaner look
-    legend.position = "none"  # Hide legend if each bucket is uniquely labeled
+    plot.title = element_text(hjust = 0.5, size = 14, face = "bold"),  
+    plot.subtitle = element_text(hjust = 0.5, size = 12, color = "gray50"),  
+    axis.title.y = element_text(size = 12, face = "italic"),  
+    axis.ticks.x = element_blank(),  
+    legend.position = "none" 
   ) +
-  scale_y_continuous(expand = expansion(mult = c(0, 0.1)))  # Add space above bars for labels
+  scale_y_continuous(expand = expansion(mult = c(0, 0.1))) 
+
+#plotting the re-joiners plot and saving it in the graph folder
 rejoiner_plot
 ggsave("graphs/rejoiner_plot.png", plot = pieChart_MissingLearners, width = 10, height = 6)
 ```
@@ -439,23 +444,25 @@ Since there are many number of re-joiners for the cyber security course in the b
 Looking at the below tabular column I can see the maximum number of learners had opted saying 'They do not have enough time'. Also, 40 learners opted for 'The course required more time' since both are time related I added the values and the count is 143. There are learners who are not satisfied with the course and few found it hard and few found it very easy but there count are very less when compared to learners who choose time as main issue.
 
 ```{r,message=FALSE, warning=FALSE, echo = FALSE,fig.height=4,fig.width=5,fig.align='center'}
+#reasons for the learners quitting the course
 unique_leaving_reasons_count <- combined_leaving_survey_data %>%
   count(leaving_reason) %>%
   arrange(desc(n))
-
+#display the unique reasons as table
 leaving_reasons_table <- kable(unique_leaving_reasons_count, col.names = c("Unique Leaving Reason", "Leaving Reason Count"), booktabs = TRUE, format = "latex", align = c("l", "c")) %>%
   kable_styling(latex_options = c("striped", "hold_position", "scale_down")) %>%
   row_spec(which.max(unique_leaving_reasons_count$n), bold = TRUE)
 leaving_reasons_table
 
+#hours for each cyber security course
 video_duration_summary <- combined_data_video_stats %>%
   group_by(cyber_security) %>%
   summarise(total_duration_hours = sum(video_duration) / 60)
-
+#display it as table
 video_duration_table <- kable(video_duration_summary, col.names = c("Cyber Security Level", "Total Duration (hours)"), format = "latex", booktabs = TRUE) %>%
   kable_styling(latex_options = c("striped", "hold_position", "scale_down")) %>%
-  column_spec(2, bold = TRUE, color = "blue") %>%  # Emphasize the duration column
-  row_spec(0, bold = TRUE, background = "lightgray")  # Bold and highlight header row
+  column_spec(2, bold = TRUE, color = "blue") %>%  
+  row_spec(0, bold = TRUE, background = "lightgray") 
 video_duration_table
 ```
 
@@ -509,9 +516,9 @@ bar_plot <- ggplot(learners_rejoiners_data, aes(x = Category, y = Count, fill = 
   geom_bar(stat = "identity") +
   labs(title = "Learners vs Rejoiners in IT Sector", x = "Category", y = "Count") +
   theme_minimal() +
-  theme(legend.position = "top",  # Move legend to the top
-        legend.title = element_blank(),  # Remove legend title
-        legend.key.size = unit(0.6, "cm"))  # Adjust legend key size
+  theme(legend.position = "top",  
+        legend.title = element_blank(),  
+        legend.key.size = unit(0.6, "cm")) 
 
 bar_plot
 ```

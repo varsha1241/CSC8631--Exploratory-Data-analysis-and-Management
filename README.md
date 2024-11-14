@@ -47,7 +47,7 @@ The repository is named as 'courseWorkCS8631', it has the following files
 
 Setup Instruction:
 
-After installing the Rstudio and R in your system, Now proceed with the below instructions
+
 
 Execution Instruction:
 
@@ -56,17 +56,12 @@ If u have not used RStudio before and setting it up new, the below instructions 
 1. download the zip file and extract all the files into a new folder in your desired destination 
 2. open r studio in your system and file -> open project and select the directory in which you have extracted the project folder
 
-xcrun: error: invalid active developer path (/Library/Developer/CommandLineTools), missing xcrun at: /Library/Developer/CommandLineTools/usr/bin/xcrun
-xcrun: error: invalid active developer path (/Library/Developer/CommandLineTools), missing xcrun at: /Library/Developer/CommandLineTools/usr/bin/xcrun
-
-If you are facing this issue in MacOs then you need to execute the below command in your Rstudio terminal and grant permission
- the command is : xcode-select --install
-
 Next you will have to ,
 
 1. On top you will be able to see a warning , If it says any of the package is not installed and ask you to install kindly install it, If not I request to execute the command 
 The warning  pop up with saying 'Rendering Rmarkdown documents required to updated version of the following packages , do you want to instal it ?" give an yes to it.
    
+   The libraries that are used in project are ggplot2, dplyr,stringi,stringr,magrittr,tidyr,purrr,knitr,RColorBrewer,kableExtra,gridExtra,grid.
     >install.packages("package name")
     > library(packagename)
     > renv::snapshot()
@@ -92,6 +87,13 @@ Do you want to install these packages now? give Yes
 Additional Setup Instruction:
 
 If u still face any more issues, some problems faced when trying to execute in other system , and its solutions are given below
+
+* After installing the Rstudio and R in your system, Now proceed with the below instructions
+    xcrun: error: invalid active developer path (/Library/Developer/CommandLineTools), missing xcrun at: /Library/Developer/CommandLineTools/usr/bin/xcrun
+    xcrun: error: invalid active developer path (/Library/Developer/CommandLineTools), missing xcrun at: /Library/Developer/CommandLineTools/usr/bin/xcrun
+
+If you are facing this issue in MacOs then you need to execute the below command in your Rstudio terminal and grant permission
+ the command is : xcode-select --install
 
 1.run the command install.packages("ProjectTemplate") and choose 'Y' when it asks you with a prompt after its successfully completed.
 2.run renv::snapshot() and give 'Y' when it asks for permission and after it successfully executed.
