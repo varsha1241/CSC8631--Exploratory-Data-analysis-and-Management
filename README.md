@@ -1,9 +1,3 @@
----
-output:
-  pdf_document: default
-  html_document: default
----
-# courseWorkCS8631
 Project Title: Cyber Security: Safety At Home, Online, and in Life
 
 Project Overview:
